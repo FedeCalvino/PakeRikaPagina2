@@ -1,0 +1,131 @@
+.cardTotal {
+  position: relative;
+  width: 200px; /* Tamaño fijo */
+  height: 300px; /* Tamaño fijo */
+}
+.ingredientes{
+  opacity: 0;
+}
+.remove-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px; /* Ajuste para estar dentro del contenedor */
+  color: white;
+  font-size: 12px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0; /* Oculto por defecto */
+  transition: opacity 0.3s ease;
+}
+
+.quantity-badge {
+  position: absolute;
+  top: -8px;
+  left: -8px; /* Ajuste para estar dentro del contenedor */
+  background-color: rgb(0, 17, 255);
+  color: white;
+  padding: 5px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  width: 70%;
+  gap: 20px;
+  padding: 20px;
+}
+.grid-containerFull {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  width: 100%;
+  gap: 20px;
+  padding: 20px;
+}
+
+.cartaAdd h2,
+.cartaAdd p {
+  user-select: none; /* Evita la selección del texto */
+  text-decoration: none; /* Elimina el subrayado (si es que hay enlaces) */
+  pointer-events: none; /* Evita la interacción con el texto */
+}
+
+.cartaAdd{
+  padding: 20px;
+  height: 100%;
+}
+.carritoDiv{
+  width: 30%;
+}
+.card {
+  background-color: #040303;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-align: center;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 20px;
+  position: relative; /* Para poder posicionar los elementos como el botón */
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card:hover p{
+}
+.card:hover h2{
+
+}
+.card.highlight {
+  background-color: #7aeb95; /* Color verde claro para el resaltado */
+}
+.card.highlightR {
+  background-color: #eb7a87; /* Color verde claro para el resaltado */
+}
+.remove-btn:hover .card{
+  transform: scale(1.05);
+}
+
+.card:hover .remove-btn {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.card:hover .ingredientes{
+  opacity: 1;
+}
+
+h2, p {
+  color: black;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+}
+
+.card p {
+}
