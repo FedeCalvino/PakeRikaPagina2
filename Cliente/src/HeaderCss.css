@@ -6,11 +6,51 @@ header {
   z-index: 1000;
   background-color: yellow; /* Color de fondo amarillo */
   transition: background-color 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .transparent-header {
   background-color: rgba(255, 255, 0, 0.7); /* Amarillo translúcido al hacer scroll */
+}
+.divPedir {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo normal para el botón */
+.divPedir {
+  position: relative;
+  margin-top: 100px;
+  text-align: center;
+}
+
+/* Estilo fijo cuando se hace scroll */
+.fixed-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.botonPedir {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Parpadeo al añadir un producto */
+.parpadeo {
+  animation: blink 1s steps(5, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
 }
 
 img {

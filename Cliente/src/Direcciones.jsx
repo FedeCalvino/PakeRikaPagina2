@@ -1,0 +1,76 @@
+import React, { useState, useEffect } from "react";
+import './Direcc.css'
+
+export const Direcciones = () => {
+  // Agregar estado para las direcciones
+  const [direcciones, setDirecciones] = useState(JSON.parse(localStorage.getItem('Direcciones')) || []);
+  const [direccionSeleccionada, setDireccionSeleccionada] = useState(null);
+
+  // Manejar la selección de una dirección
+  const handleSelectDireccion = (direccion) => {
+    setDireccionSeleccionada(direccion);
+  };
+
+  // Manejar el borrado de una dirección utilizando propiedades únicas
+  const handleDeleteDireccion = (direccionToDelete) => {
+    const existingDirecciones = JSON.parse(localStorage.getItem('Direcciones')) || [];
+
+    const updatedDirecciones = existingDirecciones.filter(
+      (direccion) =>
+        direccion.id !== direccionToDelete.id
+    );
+
+    // Actualizar localStorage
+    localStorage.setItem("Direcciones", JSON.stringify(updatedDirecciones));
+
+    // Actualizar el estado de direcciones
+    setDirecciones(updatedDirecciones);
+
+    // Limpiar la dirección seleccionada si fue borrada
+    if (direccionSeleccionada === direccionToDelete) {
+      setDireccionSeleccionada(null);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Seleccione una Dirección</h2>
+      {direcciones.length === 0 ? (
+        <p>No hay direcciones guardadas.</p>
+      ) : (
+        <ul>
+          {direcciones.map((direccion, index) => (
+            <li
+              className={`direcc ${direccionSeleccionada ? (direccionSeleccionada.id === direccion.id ? "Selecc" : "") : ""}`}
+              key={index}
+              onClick={() => handleSelectDireccion(direccion)}
+              style={{
+                cursor: "pointer",
+                padding: "10px",
+                borderBottom: "1px solid #ccc",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>
+                {`${direccion.CallePrincipal} ${direccion.NumeroPuerta}, ${direccion.Barrio}`}
+              </span>
+              <span
+                onClick={() => handleDeleteDireccion(direccion)}
+                style={{
+                  cursor: "pointer",
+                  color: "red",
+                  marginLeft: "10px",
+                }}
+              >
+                ❌
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+    </div>
+  );
+};

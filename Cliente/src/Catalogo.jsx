@@ -19,9 +19,21 @@ export const Catalogo = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchEmpanadas();
+    const CarritoGuardado = localStorage.getItem('carrito');
 
+    console.log("CarritoGuardado",CarritoGuardado)
+    if(CarritoGuardado){
+      const carritoObjeto = JSON.parse(CarritoGuardado)
+      console.log("carritoObjeto",carritoObjeto)
+      dispatch(setCarritoSlice(carritoObjeto))
+    }
+    fetchEmpanadas();
   }, []);
+  
+  useEffect(() => {
+    console.log("carrito gu")
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+  }, [carrito]);
 
   const fetchEmpanadas = async () => {
     try {
@@ -33,14 +45,6 @@ export const Catalogo = () => {
       setEmpanadas(data);
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
-    }
-    const CarritoGuardado = localStorage.getItem('carrito');
-
-    console.log("CarritoGuardado",CarritoGuardado)
-    if(CarritoGuardado){
-      const carritoObjeto = JSON.parse(CarritoGuardado)
-      console.log("carritoObjeto",carritoObjeto)
-      dispatch(setCarritoSlice(carritoObjeto))
     }
   };
 
@@ -54,6 +58,7 @@ export const Catalogo = () => {
     console.log("carrito",carrito)
     dispatch(updateProducto({ empanada, quantityChange }));
     dispatch(updateTotal({ empanada, quantityChange }));
+    localStorage.setItem('carrito', JSON.stringify(carrito));
   };
  
 
@@ -79,7 +84,6 @@ export const Catalogo = () => {
     <>
       <HeaderPakeRika setcarrito={toggleCarrito} />
       <div className="App">
-        <h1>Empanadas</h1>
         <div className={ carritoVisible ? "grid-container" : "grid-containerFull"}>
           {empanadas.map(empanada => (
             <div className={`card ${highlightedId === empanada._id && 'highlight'} ${highlightedIdR === empanada._id && 'highlightR'}`} key={empanada._id}>
@@ -89,16 +93,17 @@ export const Catalogo = () => {
                     className='remove-btn'
                     src="./borrar-removebg.png"
                     alt="Eliminar"
+                    style={{userSelect:"none"}}
                     onClick={() => removeEmpanada(empanada)}
                   />
-                  <div className="quantity-badge">
+                  <div className="quantity-badge" style={{userSelect:"none"}}>
                     {getCantidadEmpanada(empanada._id)}
                   </div>
                 </>
               )}
               <div className='cartaAdd' onClick={() => addEmpanada(empanada)}>
                 <img
-                  style={{ width: '100%', maxWidth: '400px', height: 'auto' }}
+                  style={{ width: '100%', maxWidth: '400px', height: 'auto',userSelect:"none"}}
                   src="empanada-removebg.png"
                   alt={empanada.nombre}
                 />

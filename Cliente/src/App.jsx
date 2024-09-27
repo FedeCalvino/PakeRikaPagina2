@@ -6,6 +6,7 @@ import { Carrito } from './Carrito';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {CheckOut} from "./CheckOut"
 import { Link } from 'react-router-dom';
+
 export function App() {
     return (
         <Provider store={store}>

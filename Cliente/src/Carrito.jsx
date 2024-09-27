@@ -2,10 +2,11 @@ import React,{useState} from 'react';
 import "./Carrito.css";
 import { useDispatch,useSelector } from 'react-redux';
 import { updateProducto, updateTotal,clearCarritoSlice } from './Features/CarritoSlice';
-
+import { useNavigate } from 'react-router-dom';
+import { setPosition } from "./Features/PositionSlice";
 
 export const Carrito = () => {
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const carrito = useSelector((state) => state.Carrito);
 
@@ -21,6 +22,10 @@ export const Carrito = () => {
  const DeleteCarrito=()=>{
     dispatch(clearCarritoSlice())
  }
+ const goToCheckOut =()=>{
+  GetLocaltion()
+  navigate("/CheckOut")
+ }
 
   const addEmpanada = (empanada) => {
     updateCarrito(empanada, 1);
@@ -30,6 +35,45 @@ export const Carrito = () => {
     updateCarrito(empanada, -1);
   };
 
+  const GetLocaltion = () => {
+    // Verificar si la geolocalización es soportada
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Ubicación obtenida:", position);
+          // Actualizar el estado con la posición actual
+          localStorage.setItem('position', JSON.stringify([position.coords.latitude, position.coords.longitude]));
+          dispatch(setPosition([position.coords.latitude, position.coords.longitude]));
+        },
+        (error) => {
+          // Manejo detallado de errores
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              console.log("Permiso denegado por el usuario.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.log("La información de ubicación no está disponible.");
+              break;
+            case error.TIMEOUT:
+              console.log("La solicitud para obtener la ubicación ha caducado.");
+              break;
+            case error.UNKNOWN_ERROR:
+              console.log("Ha ocurrido un error desconocido.");
+              break;
+            default:
+              console.log("Error obteniendo la ubicación:", error);
+          }
+        },
+        {
+          enableHighAccuracy: true, // Opcional: si necesitas mayor precisión
+          timeout: 10000, // Tiempo de espera máximo
+          maximumAge: 0 // No guardar en caché la ubicación
+        }
+      );
+    } else {
+      console.log('La geolocalización no es soportada por este navegador.');
+    }
+  };
 
   return (
     <div className="carrito-container">
@@ -62,7 +106,7 @@ export const Carrito = () => {
       Total : {carrito.Carrito.total}
       <button
                 className="Checkout-carrito"
-                onClick={() => DeleteCarrito()}
+                onClick={() => goToCheckOut()}
               >
                 Check Out
       </button>

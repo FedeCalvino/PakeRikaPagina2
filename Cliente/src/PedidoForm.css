@@ -1,0 +1,79 @@
+.pedido-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pedido-form__title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.pedido-form__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.pedido-form__field,
+.pedido-form__field2 {
+  margin-bottom: 15px;
+}
+
+.pedido-form__label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.pedido-form__input,
+.pedido-form__input2 {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pedido-form__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.pedido-form__input2 {
+  width: 100%;
+}
+
+.pedido-form__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.pedido-form__button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pedido-form__button--cancel {
+  background-color: #f44336;
+  color: white;
+}
+
+.pedido-form__button--confirm {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pedido-form__button:hover {
+  opacity: 0.9;
+}
