@@ -4,20 +4,12 @@
       {
         "src": "Cliente/package.json",
         "use": "@vercel/static-build"
-      },
-      {
-        "src": "server/index.js", 
-        "use": "@vercel/node"
       }
     ],
     "routes": [
       {
-        "src": "/(.*)",
-        "dest": "/Cliente/$1"
-      },
-      {
-        "src": "/api/(.*)",
-        "dest": "/server/$1"
+        "src": "/articulos",
+        "dest": "http://200.40.89.254:3034/articulosAll"
       }
     ]
   }

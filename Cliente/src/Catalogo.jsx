@@ -39,7 +39,7 @@ export const Catalogo = () => {
 
   const fetchArticulos = async () => {
     try {
-    const response = await fetch(`/api/articulosAll`);
+    const response = await fetch(`/articulos`);
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
