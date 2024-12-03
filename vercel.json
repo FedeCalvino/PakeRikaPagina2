@@ -1,5 +1,5 @@
 {
-    "routes": [
+    "rewrites": [
       {
         "src": "/articulos",
         "dest": "http://200.40.89.254:3034/articulosAll"
