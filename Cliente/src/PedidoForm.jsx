@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateField, selectDirecc } from './Features/DireccionSlice';
-import './pedidoForm.css';
 
 export default function PedidoForm({ setDirecciones ,setDireccSelecc}) {
   const dispatch = useDispatch();
