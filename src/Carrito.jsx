@@ -40,7 +40,7 @@ export const Carrito = () => {
   };
   console.log(nuevaOrden)
   try {
-      const response = await fetch(`/api/SaveOrder`, {
+      const response = await fetch(`/SaveOrder`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

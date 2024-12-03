@@ -3,7 +3,16 @@
       {
         "source": "/articulos",
         "destination": "http://200.40.89.254:3034/articulosAll"
+      },
+      {
+        "source": "/Ordenes",
+        "destination": "http://200.40.89.254:3034/ordenesAll"
+      },
+      {
+        "source": "/SaveOrder",
+        "destination": "http://200.40.89.254:3034/SaveOrder"
       }
+      
     ]
   }
   

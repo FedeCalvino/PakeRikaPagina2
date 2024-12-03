@@ -8,7 +8,7 @@ export const Ordenes = () => {
     useEffect(() => {
         const fetchOrdenes = async () => {
             try {
-                const response = await fetch(`/api/ordenesAll`);
+                const response = await fetch(`/Ordenes`);
                 const data = await response.json(); // Added parsing of response JSON
                 setOrdenes(data);
             } catch (error) {
