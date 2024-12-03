@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "Client/package.json",
+        "src": "Cliente/package.json",
         "use": "@vercel/react"
       },
       {
@@ -13,7 +13,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "/client/$1"
+        "dest": "/Cliente/$1"
       },
       {
         "src": "/api/(.*)",
