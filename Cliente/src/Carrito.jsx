@@ -1,15 +1,18 @@
-import React,{useState} from 'react';
+import React , {useState} from 'react';
 import "./Carrito.css";
 import { useDispatch,useSelector } from 'react-redux';
 import { updateProducto, updateTotal,clearCarritoSlice } from './Features/CarritoSlice';
 import { useNavigate } from 'react-router-dom';
 import { setPosition } from "./Features/PositionSlice";
+import { Modal } from 'react-bootstrap';
 
 export const Carrito = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const carrito = useSelector((state) => state.Carrito);
-
+  const [metodoPago, setMetodoPago] = useState('tarjeta');
+  const [showNotification, setShowNotification] = useState(false);
+  const port = 3078;
   //modal
   const [openModal, setOpenModal] = useState(false);
 
@@ -26,6 +29,90 @@ export const Carrito = () => {
   GetLocaltion()
   navigate("/CheckOut")
  }
+
+ async function saveOrder() {
+  const nuevaOrden = {
+    Dia: new Date(),
+    Pago: metodoPago,
+    Hora: new Date().toLocaleTimeString(), // Obtener la hora actual del sistema
+    Articulos: carrito.Carrito.prods,
+    Total: carrito.Carrito.total
+  };
+  console.log(nuevaOrden)
+  try {
+      const response = await fetch(`/api/SaveOrder`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(nuevaOrden)
+      });
+
+      if (!response.ok) {
+          throw new Error('Error al guardar la orden');
+      } else {
+        const result = await response.json();
+        console.log('Orden guardada con éxito:', result);
+        setShowNotification(true);
+        DeleteCarrito();
+      }
+  } catch (error) {
+      console.error('Error:', error.message);
+  }
+}
+
+const agregarEmp = async ()=>{
+  const articulos = [
+    {
+      Nombre: "carne",
+      Precio: "69",
+      Categoria: "Empanadas"
+    },
+    {
+      Nombre: "Jamon y Queso",
+      Precio: "69",
+      Categoria: "Empanadas"
+    },
+    {
+      Nombre: "Caprese",
+      Precio: "69",
+      Categoria: "Empanadas"
+    },
+    {
+      Nombre: "Carne y Aceitunas",
+      Precio: "69",
+      Categoria: "Empanadas"
+    },
+    {
+      Nombre: "Lomito y Queso",
+      Precio: "69",
+      Categoria: "Empanadas"
+    }
+  ];
+  
+  // Aquí puedes añadir los artículos a tu base de datos o realizar otras operaciones con ellos
+  console.log(articulos);
+  try {
+    for (const articulo of articulos) {
+      const response = await fetch(`http://localhost:${port}/SaveEmp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(articulo)
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el artículo');
+      }
+      const data = await response.json();
+      console.log('Artículo guardado:', data);
+    }
+  } catch (error) {
+    console.error('Error al enviar los artículos:', error);
+  }
+}
+
 
   const addEmpanada = (empanada) => {
     updateCarrito(empanada, 1);
@@ -79,11 +166,11 @@ export const Carrito = () => {
     <div className="carrito-container">
       <h2>Carrito</h2>
       {carrito.Carrito.prods.length === 0 ? (
-        <p className="carrito-empty">No hay productos en el carrito.</p>
+        <p className="carrito-empty">No hay productos</p>
       ) : (
         carrito.Carrito.prods.map(prod => (
           <div key={prod._id} className="carrito-item">
-            <span className="carrito-producto">{prod.nombre}</span>
+            <span className="carrito-producto">{prod.Nombre}</span>
             <div className="carrito-controles">
               <button
                 className="carrito-boton-menos"
@@ -104,11 +191,35 @@ export const Carrito = () => {
         ))
       )}
       Total : {carrito.Carrito.total}
+      <div>
+  {/* Selección del método de pago */}
+  <label htmlFor="metodoPago" style={{ display: 'block', marginBottom: '20px',backgroundColor:"white" }}>Método de Pago:</label>
+  <select
+    id="metodoPago"
+    value={metodoPago}
+    onChange={(e) => setMetodoPago(e.target.value)}
+    style={{
+      padding: '8px',
+      fontSize: '16px',
+      borderRadius: '4px',
+      border: '1px solid #ccc',
+      width: '100%',
+      maxWidth: '300px',
+      marginBottom:"20px"
+    }}
+  >
+    <option value="tarjeta">Tarjeta de Crédito</option>
+    <option value="efectivo">Efectivo</option>
+    <option value="transferencia">Transferencia Bancaria</option>
+  </select>
+
+</div>
+
       <button
                 className="Checkout-carrito"
-                onClick={() => goToCheckOut()}
+                onClick={() => saveOrder()}
               >
-                Check Out
+                Crear Orden
       </button>
       {openModal ? 
       <>
@@ -129,7 +240,7 @@ export const Carrito = () => {
             }
             }
           >
-            Eliminar Carrito
+            Eliminar Orden
       </button>
       </>
       :
@@ -137,7 +248,7 @@ export const Carrito = () => {
                 className="Delete-carrito"
                 onClick={() => setOpenModal(true)}
               >
-                Eliminar Carrito
+                Eliminar Orden
       </button>
       }
     </div>

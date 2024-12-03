@@ -1,44 +1,44 @@
 import express from 'express';
-import Empanada from '../models/Empanada.js'; // Importa el modelo Empanada
+import Articulo from '../models/Articulo.js';
 
-const router = express.Router(); // Crea una instancia de Router
+const router = express.Router();
 
-
-// Ruta GET para obtener todas las empanadas
 router.get('/', async (req, res) => {
     try {
-        const arrayEmpanadasDb = await Empanada.find();
-        console.log(arrayEmpanadasDb);
-        res.json(arrayEmpanadasDb); 
+        const arrayArticulosDb = await Articulo.find();
+        console.log("server");
+        console.log(arrayArticulosDb);
+        res.json(arrayArticulosDb); 
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
     }
 });
 
-
-// Ruta POST para agregar una nueva empanada
+// Ruta POST para agregar un nuevo artículo
 router.post('/', async (req, res) => {
     try {
-        const { nombre, numero, ingredientes } = req.body;  // Extraer datos del cuerpo de la solicitud
+        const { nombre, Precio, Categoria } = req.body;  // Extraer datos del cuerpo de la solicitud
 
         // Validar que todos los campos estén presentes
         if (!nombre || !numero || !ingredientes) {
             return res.status(400).send('Todos los campos son obligatorios');
         }
 
-        // Crear una nueva empanada usando el modelo
-        const nuevaEmpanada = new Empanada({
+        // Crear un nuevo artículo usando el modelo
+        const nuevoArticulo = new Articulo({
             nombre,
             numero,
-            ingredientes
+            ingredientes,
+            Categoria,
+            Precio
         });
-        console.log(nuevaEmpanada)
-        // Guardar la nueva empanada en la base de datos
-        const empanadaGuardada = await nuevaEmpanada.save();
 
-        // Devolver la empanada guardada como respuesta
-        res.status(201).json(empanadaGuardada); 
+        // Guardar el nuevo artículo en la base de datos
+        const articuloGuardado = await nuevoArticulo.save();
+
+        // Devolver el artículo guardado como respuesta
+        res.status(201).json(articuloGuardado); 
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
@@ -55,20 +55,20 @@ router.put('/:id', async (req, res) => {
             return res.status(400).send('Todos los campos son obligatorios');
         }
 
-        // Buscar y actualizar la empanada
-        const empanadaActualizada = await Empanada.findByIdAndUpdate(
+        // Buscar y actualizar el artículo
+        const articuloActualizado = await Articulo.findByIdAndUpdate(
             id,  // El ID del documento que queremos actualizar
             { nombre, numero, ingredientes },  // Los nuevos datos
             { new: true }  // Esta opción devuelve el documento actualizado
         );
 
-        // Si no se encuentra la empanada
-        if (!empanadaActualizada) {
-            return res.status(404).send('Empanada no encontrada');
+        // Si no se encuentra el artículo
+        if (!articuloActualizado) {
+            return res.status(404).send('Artículo no encontrado');
         }
 
-        // Responder con la empanada actualizada
-        res.status(200).json(empanadaActualizada);
+        // Responder con el artículo actualizado
+        res.status(200).json(articuloActualizado);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error del servidor');
@@ -79,21 +79,20 @@ router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;  // Obtener el ID del documento de los parámetros de la URL
 
-        // Buscar y eliminar la empanada
-        const empanadaEliminada = await Empanada.findByIdAndDelete(id);
+        // Buscar y eliminar el artículo
+        const articuloEliminado = await Articulo.findByIdAndDelete(id);
 
-        // Si no se encuentra la empanada
-        if (!empanadaEliminada) {
-            return res.status(404).send('Empanada no encontrada');
+        // Si no se encuentra el artículo
+        if (!articuloEliminado) {
+            return res.status(404).send('Artículo no encontrado');
         }
 
         // Responder con un mensaje de éxito
-        res.status(200).send('Empanada eliminada con éxito');
+        res.status(200).send('Artículo eliminado con éxito');
     } catch (error) {
         console.error(error);
         res.status(500).send('Error del servidor');
     }
 });
-
 
 export default router; // Exporta el enrutador

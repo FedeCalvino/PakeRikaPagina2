@@ -6,6 +6,7 @@ import { Carrito } from './Carrito';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {CheckOut} from "./CheckOut"
 import { Link } from 'react-router-dom';
+import { Ordenes } from './Ordenes';
 
 export function App() {
     return (
@@ -15,6 +16,7 @@ export function App() {
                 <Route path="/" element={<Catalogo/>}/>
                 <Route path="/Catologo" element={<Catalogo/>}/>
                 <Route path="/CheckOut" element={<CheckOut/>}/>
+                <Route path="/Ordenes" element={<Ordenes/>}/>
         </Routes>   
         </BrowserRouter>
     </Provider>

@@ -15,6 +15,7 @@ export const CheckOut = () => {
     telefono: '',
     metodoPago: 'efectivo',
     comentarios: '',
+    Monto:""
   })
   const formData = useSelector(selectDirecc); 
   const [AgergarDirecc,setAgergarDirecc] = useState(false)
@@ -23,6 +24,7 @@ export const CheckOut = () => {
   const dispatch = useDispatch();
   const carritoRedux = useSelector((state) => state.Carrito);
   const carritoLocalStorage = localStorage.getItem("carrito");
+
   const carrito = carritoRedux.prods
     ? carritoRedux
     : JSON.parse(carritoLocalStorage);
@@ -47,7 +49,20 @@ export const CheckOut = () => {
     }
 
   },[])
-
+const AgergarNewDirecc=()=>{
+  dispatch(setDirecc({
+    Direcc: {
+      CallePrincipal: '',
+      NumeroPuerta: '',
+      Apto: '',
+      Esquina1: '',
+      Esquina2: '',
+      Barrio: ''
+    },
+    str: ''
+  }));
+  setAgergarDirecc(true)
+}
   const imgCarga = () => {
     return (
       <div className="flex justify-center items-center w-full h-full">
@@ -63,22 +78,16 @@ export const CheckOut = () => {
     setAgergarDirecc(false)
   }
 
-  
+  const EditDirecc =(direcc)=>{
+    setAgergarDirecc(true)
+  }
 
   return (
     <div className="check-out-container">
       <HeaderPakeRika />
-      <div className="address-container">
-        <p className="address-label">
-          Dirección:{" "}
-          <span className="address-value">
-            {position?.Address || "Dirección no disponible"}
-          </span>
-        </p>
-      </div>
       <div className="cart-container">
         <div className="compras">
-          <h3 className="cart-title">Carrito de Compras</h3>
+          <h3 className="cart-title" style={{userSelect: "none" }}>Carrito de Compras</h3>
           <ul className="divide-y divide-gray-200">
             {carrito.Carrito.prods.map((producto) => (
               <li key={producto._id} className="cart-item">
@@ -88,7 +97,7 @@ export const CheckOut = () => {
               </li>
             ))}
           </ul>
-          <div className="cart-total">
+          <div className="cart-total" style={{userSelect: "none" }}>
             <h4>Total: ${carrito.Carrito.total}</h4>
           </div>
         </div>
@@ -99,9 +108,9 @@ export const CheckOut = () => {
           </>   
           :
           <>
-            <Direcciones/>
+            <Direcciones callBackEdit={EditDirecc}/>
             <div style={{display:"flex",justifyContent:"center"}}>
-            <button onClick={()=>setAgergarDirecc(true)} className="pedido-form__submit">
+            <button onClick={()=>AgergarNewDirecc()} className="pedido-form__submit">
               Agregar Direccion
             </button>
             </div>
@@ -110,25 +119,40 @@ export const CheckOut = () => {
         </div>
       </div>
       <div className="pedido-form__field">
-          <label htmlFor="telefono" className="pedido-form__label">
-            Teléfono
-          </label>
-          <input
-            type="number"
-            id="telefono"
-            name="telefono"
-            value={Pedido.telefono}
-            onChange={handleChange}
-            required
-            className="pedido-form__input"
-            placeholder="Ingresa tu número de teléfono"
-          />
+      <div className="address-container">
+        <p className="address-label">
+          Dirección:{" "}
+          <span className="address-value">
+            { formData.CallePrincipal ?
+              <span>
+                {`${formData.CallePrincipal} ${formData.NumeroPuerta}, ${formData.Barrio}`}
+              </span> 
+              :
+              "Sin Seleccionar"
+            }
+          </span>
+        </p>
+      </div>
+      <div>
+  <label htmlFor="telefono" className="pedido-form__label">
+    Teléfono
+  </label>
+  <input
+    type="number"
+    id="telefono"
+    name="telefono"
+    value={Pedido.telefono}
+    onChange={handleChange}
+    required
+    className="pedido-form__input"
+    placeholder="Teléfono"
+  />
+</div>
         </div>
-
         <div className="pedido-form__field">
           <span className="pedido-form__label">Método de pago</span>
           <div className="pedido-form__radio-group">
-            {['efectivo', 'tarjeta', 'mercadopago'].map((method) => (
+            {['Efectivo', 'Tarjeta'].map((method) => (
               <label key={method} className="pedido-form__radio-label">
                 <input
                   type="radio"
@@ -143,20 +167,40 @@ export const CheckOut = () => {
             ))}
           </div>
         </div>
-
+        {
+          Pedido.metodoPago === "Efectivo" && 
+          <>
+          <label className="pedido-form__label">
+            Monto
+          </label>
+          <input
+          style={{width:"130px"}}
+            type="number"
+            id="Monto"
+            name="Monto"
+            value={Pedido.Monto}
+            onChange={handleChange}
+            required
+            className="pedido-form__input"
+            placeholder="Monto"
+          />
+          </>
+        }
         <div className="pedido-form__field">
           <label htmlFor="comentarios" className="pedido-form__label">
             Comentarios adicionales
           </label>
-          <textarea
+          <input
+            style={{width:"130px"}}
+            type="text"
             id="comentarios"
             name="comentarios"
             value={Pedido.comentarios}
             onChange={handleChange}
-            rows={3}
+            required
             className="pedido-form__textarea"
             placeholder="Escribe algún comentario (opcional)"
-          ></textarea>
+          />
         </div>
 
         <div className="pedido-form__field">

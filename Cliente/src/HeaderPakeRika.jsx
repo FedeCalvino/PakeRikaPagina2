@@ -93,14 +93,14 @@ export const HeaderPakeRika = ({ setcarrito }) => {
                   <Link className="nav-link" to="/">Catalogo</Link>
                 </li>
                 <li className="nav-item">
-                  <Link onClick={GetLocaltion} className="nav-link" to="/CheckOut">Check Out</Link>
+                  <Link className="nav-link" to="/Ordenes">Ordenes</Link>
                 </li>
               </ul>
               <ul className="navbar-nav">
                 <li className="nav-item">
                   <div className="nav-link" onClick={handleAddToCart}>
-                    <p className={`carrito ${isProductAdded ? 'parpadeo' : ''}`}>
-                      <FaShoppingCart /> Carrito ({carrito.Carrito.prods ? carrito.Carrito.prods.length : 0})
+                    <p className={`carrito`}>
+                      <FaShoppingCart /> Orden ({carrito.Carrito.prods ? carrito.Carrito.prods.length : 0})
                     </p>
                   </div>
                 </li>
@@ -110,13 +110,14 @@ export const HeaderPakeRika = ({ setcarrito }) => {
         </nav>
       </header>
       
-      <div className={`divPedir`}> {/* Agregar clase si se ha hecho scroll */}
+      <div className={`divPedir`}> 
+      {/*
         {carrito.Carrito.prods && carrito.Carrito.prods.length > 0 && (
           <button onClick={()=>goToCheckOut()} className={`botonPedir ${isProductAdded ? 'parpadeo' : ''}`}>
             Realizar Pedido
           </button>
-        )}
-      </div>
+        )}*/}
+        </div>
     </>
   );
 };

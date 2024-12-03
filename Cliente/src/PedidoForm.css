@@ -21,6 +21,7 @@
 .pedido-form__field,
 .pedido-form__field2 {
   margin-bottom: 15px;
+  color: black;
 }
 
 .pedido-form__label {
@@ -38,6 +39,8 @@
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
+  color:black;
+  background-color: rgb(240, 240, 219);
 }
 
 .pedido-form__row {

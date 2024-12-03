@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EmpanadasSlice from "./Features/EmpanadasSlice";
+import ArticulosSlice from "./Features/ArticulosSlice";
 import CarritoSlice from "./Features/CarritoSlice";
 import PositionSlice from "./Features/PositionSlice";
 import DireccionSlice from "./Features/DireccionSlice";
 export const store = configureStore({
     reducer: {
-        empanadas: EmpanadasSlice, 
+        Articulos: ArticulosSlice, 
         Carrito: CarritoSlice,
         Position: PositionSlice,
         Direcc:DireccionSlice

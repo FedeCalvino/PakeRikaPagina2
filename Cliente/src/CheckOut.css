@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  margin-top: 200px;
   max-width: 1200px;
   margin: auto;
   background-color: #f9f9f9;
@@ -79,6 +80,7 @@
   display: flex;
   justify-content: space-between;
   padding: 15px 0;
+  cursor:unset;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.3s ease;
 }
@@ -124,6 +126,7 @@
 
 .pedido-form__field {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .pedido-form__label {
@@ -139,8 +142,10 @@
   width: 100%;
   padding: 10px;
   border-radius: 8px;
+  text-align: center;
   border: 1px solid #e0e0e0;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: black;
 }
 
 .pedido-form__input:focus,
@@ -168,7 +173,10 @@
 /* Radio buttons */
 .pedido-form__radio-group {
   display: flex;
-  gap: 20px;
+  gap: 40px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
 }
 
 .pedido-form__radio-label {
@@ -177,6 +185,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 20px;
+
 }
 
 .pedido-form__radio-text {
@@ -200,3 +210,13 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Eliminar las flechas en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

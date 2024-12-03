@@ -7,14 +7,14 @@ import { setCarritoSlice } from './Features/CarritoSlice';
 import { updateProducto, updateTotal } from './Features/CarritoSlice';
 export const Catalogo = () => {
 
-  const [empanadas, setEmpanadas] = useState([]);
+  const [Artiuclos, setArticulos] = useState([]);
   const [highlightedId, setHighlightedId] = useState(null);
   const [highlightedIdR, setHighlightedIdR] = useState(null);
-  const [carritoVisible, setCarritoVisible] = useState(false);
+  const [carritoVisible, setCarritoVisible] = useState(true);
 
   const carrito = useSelector((state) => state.Carrito);
 
-  const port = 3019;
+  const port = 3079;
 
   const dispatch = useDispatch();
 
@@ -22,12 +22,14 @@ export const Catalogo = () => {
     const CarritoGuardado = localStorage.getItem('carrito');
 
     console.log("CarritoGuardado",CarritoGuardado)
+
     if(CarritoGuardado){
       const carritoObjeto = JSON.parse(CarritoGuardado)
       console.log("carritoObjeto",carritoObjeto)
       dispatch(setCarritoSlice(carritoObjeto))
     }
-    fetchEmpanadas();
+
+    fetchArticulos();
   }, []);
   
   useEffect(() => {
@@ -35,17 +37,18 @@ export const Catalogo = () => {
     localStorage.setItem('carrito', JSON.stringify(carrito));
   }, [carrito]);
 
-  const fetchEmpanadas = async () => {
+  const fetchArticulos = async () => {
     try {
-      const response = await fetch(`http://localhost:${port}/empanadas`);
-      if (!response.ok) {
+    const response = await fetch(`/api/articulosAll`);
+    if (!response.ok) {
         throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setEmpanadas(data);
-    } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
     }
+    const data = await response.json();
+    console.log("data",data);
+    setArticulos(data);  // Corrected typo
+} catch (error) {
+    console.error('There has been a problem with your fetch operation:', error);
+}
   };
 
   const toggleCarrito = () => {
@@ -62,7 +65,7 @@ export const Catalogo = () => {
   };
  
 
-  const addEmpanada = (empanada) => {
+  const addArticulo= (empanada) => {
     setHighlightedId(empanada._id);
     updateCarrito(empanada, 1);
     setTimeout(() => setHighlightedId(null), 300);
@@ -85,30 +88,29 @@ export const Catalogo = () => {
       <HeaderPakeRika setcarrito={toggleCarrito} />
       <div className="App">
         <div className={ carritoVisible ? "grid-container" : "grid-containerFull"}>
-          {empanadas.map(empanada => (
-            <div className={`card ${highlightedId === empanada._id && 'highlight'} ${highlightedIdR === empanada._id && 'highlightR'}`} key={empanada._id}>
-              {getCantidadEmpanada(empanada._id) > 0 && (
+          {Artiuclos.map(Artiuclo => (
+            <div className={`card ${highlightedId === Artiuclo._id && 'highlight'} ${highlightedIdR === Artiuclo._id && 'highlightR'}`} key={Artiuclo._id}>
+              {getCantidadEmpanada(Artiuclo._id) > 0 && (
                 <>
                   <img
                     className='remove-btn'
                     src="./borrar-removebg.png"
                     alt="Eliminar"
                     style={{userSelect:"none"}}
-                    onClick={() => removeEmpanada(empanada)}
+                    onClick={() => removeEmpanada(Artiuclo)}
                   />
                   <div className="quantity-badge" style={{userSelect:"none"}}>
-                    {getCantidadEmpanada(empanada._id)}
+                    {getCantidadEmpanada(Artiuclo._id)}
                   </div>
                 </>
               )}
-              <div className='cartaAdd' onClick={() => addEmpanada(empanada)}>
+              <div className='cartaAdd' onClick={() => addArticulo(Artiuclo)}>
                 <img
                   style={{ width: '100%', maxWidth: '400px', height: 'auto',userSelect:"none"}}
                   src="empanada-removebg.png"
-                  alt={empanada.nombre}
+                  alt={Artiuclo.Nombre}
                 />
-                <h2>{empanada.nombre}</h2>
-                <p className='ingredientes'>{empanada.ingredientes}</p>
+                <h2>{Artiuclo.Nombre}</h2>
               </div>
             </div>
           ))}
