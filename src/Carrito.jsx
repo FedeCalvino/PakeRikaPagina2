@@ -130,7 +130,7 @@ export const Carrito = () => {
         descuento += 15;
         Bebidas600--
       }
-      if(Bebidas15>=1>=1){
+      if(Bebidas15>=1){
         descuento += 45;
         Bebidas15--
       }
