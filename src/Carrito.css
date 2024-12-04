@@ -1,13 +1,17 @@
 .carrito-container {
-    padding: 20px;
-    width: 28%;
-    background-color: #f8f9fa;
-    position: fixed;
-    top: 20px; 
-    right: 20px; 
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 100; /* Asegura que esté sobre otros elementos */
+  padding: 20px;
+  width: 28%;
+  background-color: #f8f9fa;
+  position: fixed;
+  top: 20px; 
+  right: 20px; 
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  max-height: 80vh; /* Limita la altura máxima del carrito */
+  overflow-y: auto; /* Agrega scroll cuando el contenido exceda la altura */
+  border: 1px solid black;
+  margin-top: 60px;
 }
 
   h2 {
@@ -56,8 +60,8 @@
     height: 70px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    overflow: hidden; /* Asegura que el contenido no se desborde fuera de cada item */
   }
-  
   .carrito-producto {
     width: 50%;
     font-size: 16px;
