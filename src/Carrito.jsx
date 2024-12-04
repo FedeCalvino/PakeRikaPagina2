@@ -126,12 +126,12 @@ export const Carrito = () => {
         cantidadEmp -= 6;
     }
     while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1)){
-      if(Bebidas600>=1){
+      if(Promos >= 1 && Bebidas600>=1){
         descuento += 15;
         Bebidas600--
         Promos--
       }
-      if(Bebidas15>=1){
+      if(Promos >= 1 && Bebidas15>=1){
         descuento += 45;
         Bebidas15--
         Promos--
