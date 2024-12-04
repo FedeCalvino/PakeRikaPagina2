@@ -100,7 +100,9 @@
   .carrito-boton:disabled {
     background-color: #ccc;
   }
-  
+  button{
+    color: white;
+  }
   .carrito-boton:hover:not(:disabled) {
     background-color: #0056b3;
   }
