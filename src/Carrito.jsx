@@ -31,6 +31,7 @@ export const Carrito = () => {
   }
 
   async function saveOrder() {
+    if(carrito.Carrito.prods.length>0){
     const nuevaOrden = {
       Dia: new Date(),
       Pago: metodoPago,
@@ -59,20 +60,20 @@ export const Carrito = () => {
     } catch (error) {
       console.error('Error:', error.message);
     }
+    }
   }
 
   const agregarEmp = async () => {
     const articulos = [
       {
-        Nombre: "Mega Pizza",
-        Precio: "390",
-        Categoria: "Promo"
-      },
-      {
-        Nombre: "Marcianitos",
-        Precio: "145",
-        Categoria: "Marcianito"
-      },
+        Nombre: "Bebida 1 1/2",
+        Precio: "195",
+        Categoria: "Bebida"
+      },{
+        Nombre: "Bebida 600",
+        Precio: "85",
+        Categoria: "Bebida"
+      }
     ]
 
     // Aquí puedes añadir los artículos a tu base de datos o realizar otras operaciones con ellos
@@ -100,17 +101,39 @@ export const Carrito = () => {
   const getDescuento = () => {
     let cantidadEmp = 0;
     let descuento = 0;
-
+    let Bebidas600 = 0;
+    let Bebidas15 = 0;
+    let Promos = 0;
     carrito.Carrito.prods.forEach(prod => {
         if (prod.Categoria === "Empanadas") {
-
             cantidadEmp+=prod.cantidad;
         }
+        console.log("prod.Categoria",prod.Categoria)
+        if (prod.Categoria === "Bebida") {
+          console.log("prod.Nombre",prod.Nombre)
+          if(prod.Nombre==="Bebida 600"){
+            Bebidas600+=prod.cantidad;
+          }else{
+            Bebidas15+=prod.cantidad;
+          }
+        }
+        if (prod.Categoria === "Promo") {
+          Promos+=prod.cantidad;
+        }
     });
-console.log("cantidadEmp",cantidadEmp)
     while (cantidadEmp >= 6) {
         descuento += 131;
         cantidadEmp -= 6;
+    }
+    while (Promos >= 1 && Bebidas600>=1 || Bebidas15>=1) {
+      if(Bebidas600>=1){
+        descuento += 131;
+        Bebidas600--
+      }
+      if(Bebidas15>=1>=1){
+        descuento += 15;
+        Bebidas15--
+      }
     }
 
     while (cantidadEmp >= 3) {
