@@ -110,7 +110,6 @@ export default function ManejoStock() {
               <thead>
                 <tr>
                   <th style={styles.th}>Nombre</th>
-                  <th style={styles.th}>Vendidas</th>
                   <th style={styles.th}>Stock</th>
                 </tr>
               </thead>
@@ -118,7 +117,6 @@ export default function ManejoStock() {
                 {Artiuclos.map((product) => (
                   <tr key={product._id}>
                     <td style={styles.td}>{product.Nombre}</td>
-                    <td style={styles.td}>{GetCantidad(product,"Rivera")}</td>
                     <td style={styles.td}>
                       <input
                         type="number"
@@ -142,7 +140,6 @@ export default function ManejoStock() {
               <thead>
                 <tr>
                   <th style={styles.th}>Nombre</th>
-                  <th style={styles.th}>Vendidas</th>
                   <th style={styles.th}>Stock</th>
                 </tr>
               </thead>
@@ -150,7 +147,6 @@ export default function ManejoStock() {
                 {Artiuclos.map((product) => (
                   <tr key={product._id}>
                     <td style={styles.td}>{product.Nombre}</td>
-                    <td style={styles.td}>{GetCantidad(product,"Colonia")}</td>
                     <td style={styles.td}>
                       <input
                         type="number"
