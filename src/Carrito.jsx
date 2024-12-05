@@ -137,7 +137,7 @@ export const Carrito = () => {
           }
         }
     });
-    if (cantidadEmp=2) {
+    if (cantidadEmp===2) {
       descuento += 32;
       Promos++;
       cantidadEmp -= 2;
