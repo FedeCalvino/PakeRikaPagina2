@@ -15,10 +15,10 @@ export function App() {
         <BrowserRouter>
         <Routes>
                 <Route path="/" element={<Catalogo/>}/>
-                <Route path="/Catologo" element={<Catalogo/>}/>
-                <Route path="/CheckOut" element={<CheckOut/>}/>
-                <Route path="/Ordenes" element={<Ordenes/>}/>
-                <Route path="/Stock" element={<ManejoStock/>}/>
+                <Route path="/CatologoP" element={<Catalogo/>}/>
+                <Route path="/CheckOutP" element={<CheckOut/>}/>
+                <Route path="/OrdenesP" element={<Ordenes/>}/>
+                <Route path="/StockP" element={<ManejoStock/>}/>
         </Routes>   
         </BrowserRouter>
     </Provider>

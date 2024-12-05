@@ -52,8 +52,7 @@ export default function ManejoStock() {
   const handleSave = async () => {
     try {
       const updatePromises = Artiuclos.map(async (arti) => {
-        const response = await fetch(
-          `/UpdateStock/${arti._id}`,
+        const response = await fetch( `/UpdateStock/${arti._id}`,
           {
             method: "PUT",
             headers: {
