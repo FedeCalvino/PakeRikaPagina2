@@ -32,6 +32,7 @@ export const Carrito = () => {
 
   async function saveOrder() {
     if(carrito.Carrito.prods.length>0){
+
     const nuevaOrden = {
       Dia: new Date(),
       Pago: metodoPago,
@@ -57,7 +58,7 @@ export const Carrito = () => {
         console.log('Orden guardada con éxito:', result);
         setShowNotification(true);
         DeleteCarrito();
-        navigate("/Ordenes")
+        navigate("/OrdenesP")
       }
     } catch (error) {
       console.error('Error:', error.message);
