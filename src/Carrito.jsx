@@ -132,10 +132,16 @@ export const Carrito = () => {
           }
         }
         if (prod.Categoria === "Promo") {
-          Promos+=prod.cantidad;
+          if(prod.Nombre!="Marcianito"){
+            Promos+=prod.cantidad;
+          }
         }
     });
-
+    if (cantidadEmp=2) {
+      descuento += 32;
+      Promos++;
+      cantidadEmp -= 2;
+    }
     while (cantidadEmp >= 6) {
         descuento += 131;
         cantidadEmp -= 6;
