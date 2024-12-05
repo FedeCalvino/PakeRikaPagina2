@@ -78,3 +78,30 @@ li {
 .carrito:hover {
   color: red;
 }
+.large-link {
+  font-size: 1.5rem; /* Aumenta el tamaño de la fuente */
+  font-weight: bold;
+  padding: 15px 20px; /* Ajusta el espacio interno */
+  text-transform: uppercase;
+  color: inherit; /* Mantiene el color del tema */
+  text-decoration: none; /* Elimina el subrayado */
+  border: 2px solid transparent; /* Agrega un borde inicial transparente */
+  border-radius: 8px; /* Bordes redondeados */
+  margin: 0 10px; /* Espaciado horizontal entre enlaces */
+  transition: all 0.3s ease; /* Efecto suave en hover */
+}
+
+.large-link:hover {
+  color: #ffffff;
+  background-color: #007bff;
+  border: 2px solid #007bff;
+  text-decoration: none;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 20px; 
+}
+

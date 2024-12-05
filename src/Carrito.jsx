@@ -37,7 +37,8 @@ export const Carrito = () => {
       Pago: metodoPago,
       Hora: new Date().toLocaleTimeString(), // Obtener la hora actual del sistema
       Articulos: carrito.Carrito.prods,
-      Total: carrito.Carrito.total-getDescuento()
+      Total: carrito.Carrito.total-getDescuento(),
+      Local:"Colonia"
     };
     console.log(nuevaOrden)
     try {
@@ -56,6 +57,7 @@ export const Carrito = () => {
         console.log('Orden guardada con éxito:', result);
         setShowNotification(true);
         DeleteCarrito();
+        navigate("/Ordenes")
       }
     } catch (error) {
       console.error('Error:', error.message);
@@ -66,13 +68,17 @@ export const Carrito = () => {
   const agregarEmp = async () => {
     const articulos = [
       {
-        Nombre: "Bebida 1 1/2",
-        Precio: "195",
-        Categoria: "Bebida"
+        Nombre: "Samba",
+        Precio: "55",
+        Categoria: "Bebida",
+        StockRivera:0,
+        StockColonia:0
       },{
-        Nombre: "Bebida 600",
-        Precio: "85",
-        Categoria: "Bebida"
+        Nombre: "Smith 44",
+        Precio: "65",
+        Categoria: "Bebida",
+        StockRivera:0,
+        StockColonia:0
       }
     ]
 
@@ -80,7 +86,7 @@ export const Carrito = () => {
     console.log(articulos);
     try {
       for (const articulo of articulos) {
-        const response = await fetch(`http://200.40.89.254:3034/SaveEmp`, {
+        const response = await fetch(`http://localhost:3019/SaveEmp`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -102,8 +108,11 @@ export const Carrito = () => {
     let cantidadEmp = 0;
     let descuento = 0;
     let Bebidas600 = 0;
+    let Samba = 0;
+    let Smith = 0;
     let Bebidas15 = 0;
     let Promos = 0;
+
     carrito.Carrito.prods.forEach(prod => {
         if (prod.Categoria === "Empanadas") {
             cantidadEmp+=prod.cantidad;
@@ -113,6 +122,10 @@ export const Carrito = () => {
           console.log("prod.Nombre",prod.Nombre)
           if(prod.Nombre==="Bebida 600"){
             Bebidas600+=prod.cantidad;
+          }else if(prod.Nombre==="Smith 44"){
+            Smith+=prod.cantidad;
+          }else if(prod.Nombre==="Samba"){
+            Samba+=prod.cantidad;
           }else{
             Bebidas15+=prod.cantidad;
           }
@@ -121,11 +134,18 @@ export const Carrito = () => {
           Promos+=prod.cantidad;
         }
     });
+
     while (cantidadEmp >= 6) {
         descuento += 131;
         cantidadEmp -= 6;
+        Promos++;
     }
-    while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1)){
+    while (cantidadEmp >= 3) {
+      descuento += 53;
+      cantidadEmp -= 3;
+      Promos++
+    }
+    while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1) || (Promos >= 1 && Smith >= 1) || (Promos >= 1 && Samba >= 1)){
       if(Promos >= 1 && Bebidas600>=1){
         descuento += 15;
         Bebidas600--
@@ -136,11 +156,16 @@ export const Carrito = () => {
         Bebidas15--
         Promos--
       }
-    }
-
-    while (cantidadEmp >= 3) {
-        descuento += 53;
-        cantidadEmp -= 3;
+      if(Promos >= 1 && Smith>=1){
+        descuento += 20;
+        Smith--
+        Promos--
+      }
+      if(Promos >= 1 && Samba>=1){
+        descuento += 10;
+        Samba--
+        Promos--
+      }
     }
 
     return descuento;

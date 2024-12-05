@@ -9,7 +9,8 @@ export const Ordenes = () => {
         const fetchOrdenes = async () => {
             try {
                 const response = await fetch(`/Ordenes`);
-                const data = await response.json(); // Added parsing of response JSON
+                console.log("response",response)
+                const data = await response.json();
                 setOrdenes(data);
             } catch (error) {
                 console.error('Error fetching ordenes:', error);
@@ -19,14 +20,9 @@ export const Ordenes = () => {
         fetchOrdenes();
     }, []);
 
-    const toggleCarrito = () => {
-        console.log(carrito)
-        setCarritoVisible(prev => !prev);
-    };
-
     return (
         <div style={{ margin: '20px' }}>
-            <HeaderPakeRika setcarrito={toggleCarrito} />
+            <HeaderPakeRika/>
             <h1 style={{ marginBottom: '20px', fontSize: '1.5rem' }}>Lista de Órdenes</h1>
             {ordenes.slice().reverse().map((orden) => ( 
                 <div key={orden._id} style={{ border: '1px solid #ddd', marginBottom: '10px', padding: '10px', borderRadius: '5px' }}>

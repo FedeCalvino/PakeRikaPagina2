@@ -11,6 +11,9 @@
       {
         "source": "/SaveOrder",
         "destination": "http://200.40.89.254:3034/SaveOrder"
+      },{
+        "source": "/UpdateStock/:id",
+        "destination": "http://localhost:3034/productos/updateStock/:id}"
       }
       
     ]
