@@ -16,12 +16,8 @@
         "destination": "http://200.40.89.254:3034/productos/updateStock/:id"
       },
       {
-        "source": "/Ordenes",
-        "destination": "/index.html"
-      },
-      {
         "source": "/StockP",
-        "destination": "/StockP.html"
+        "destination": "/index.html"
       },
       {
         "source": "/OrdenesP",
@@ -29,7 +25,7 @@
       },
       {
         "source": "/CatologoP",
-        "destination": "/CatologoP.html"
+        "destination": "/index.html"
       }
       
     ]
