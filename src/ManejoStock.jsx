@@ -101,7 +101,7 @@ export default function ManejoStock() {
     <>
       <HeaderPakeRika />
       <div style={styles.container}>
-        <h1 style={styles.title}>Actualizar Stock</h1>
+        <h1 style={styles.title}>Stock</h1>
         <div style={styles.tablesContainer}>
           {/* Primera Tabla */}
           <div style={styles.tableWrapper}>
