@@ -59,13 +59,13 @@
 
 .cartaAdd h2,
 .cartaAdd p {
-  user-select: none; /* Evita la selección del texto */
-  text-decoration: none; /* Elimina el subrayado (si es que hay enlaces) */
-  pointer-events: none; /* Evita la interacción con el texto */
+  user-select: none;
+  text-decoration: none; 
+  pointer-events: none; 
 }
 
 .cartaAdd{
-  padding: 20px;
+  padding: 15px;
   height: 100%;
 }
 .carritoDiv{

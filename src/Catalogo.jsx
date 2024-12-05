@@ -39,7 +39,7 @@ export const Catalogo = () => {
 
   const fetchArticulos = async () => {
     try {
-      const response = await fetch(`/articulos`);
+      const response = await fetch(`http://200.40.89.254:3034/articulosAll`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -137,8 +137,9 @@ export const Catalogo = () => {
                   </div>
                 </>
               )}
-              <div className='cartaAdd' onClick={() => addArticulo(Artiuclo)}>
+              <div style={{padding: "5px"}} className='cartaAdd' onClick={() => addArticulo(Artiuclo) }>
                 <h2>{Artiuclo.Nombre}</h2>
+                <h2>{Artiuclo.Numero}</h2>
               </div>
             </div>
           ))}
