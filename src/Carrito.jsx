@@ -16,6 +16,12 @@ export const Carrito = () => {
   //modal
   const [openModal, setOpenModal] = useState(false);
 
+  const [pedidoYa, setpedidoYa] = useState(false);
+
+  const handleToggle = () => {
+    setpedidoYa((prevState) => !prevState);
+  };
+
   const updateCarrito = (empanada, quantityChange) => {
     console.log("Actualizando carrito con empanada:", empanada, "Cantidad:", quantityChange);
     console.log("carrito", carrito)
@@ -31,6 +37,7 @@ export const Carrito = () => {
   }
 
   async function saveOrder() {
+    
     if(carrito.Carrito.prods.length>0){
 
     const nuevaOrden = {
@@ -38,9 +45,11 @@ export const Carrito = () => {
       Pago: metodoPago,
       Hora: new Date().toLocaleTimeString(), // Obtener la hora actual del sistema
       Articulos: carrito.Carrito.prods,
-      Total: carrito.Carrito.total-getDescuento(),
-      Local:"Colonia"
+      Total: carrito.Carrito.total+getDescuento(),
+      Local:"Colonia",
+      PedidosYa:pedidoYa
     };
+
     console.log(nuevaOrden)
     try {
       const response = await fetch(`/SaveOrder`, {
@@ -58,6 +67,7 @@ export const Carrito = () => {
         console.log('Orden guardada con éxito:', result);
         setShowNotification(true);
         DeleteCarrito();
+        setpedidoYa(false)
         navigate("/OrdenesP")
       }
     } catch (error) {
@@ -87,7 +97,7 @@ export const Carrito = () => {
     console.log(articulos);
     try {
       for (const articulo of articulos) {
-        const response = await fetch(`http://localhost:3019/SaveEmp`, {
+        const response = await fetch(`/SaveEmp`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -115,13 +125,14 @@ export const Carrito = () => {
     let Promos = 0;
 
     carrito.Carrito.prods.forEach(prod => {
+      
         if (prod.Categoria === "Empanadas") {
             cantidadEmp+=prod.cantidad;
         }
         console.log("prod.Categoria",prod.Categoria)
         if (prod.Categoria === "Bebida") {
           console.log("prod.Nombre",prod.Nombre)
-          if(prod.Nombre==="Bebida 600"){
+          if(prod.Nombre==="Bebida 600ml"){
             Bebidas600+=prod.cantidad;
           }else if(prod.Nombre==="Smith 44"){
             Smith+=prod.cantidad;
@@ -137,41 +148,54 @@ export const Carrito = () => {
           }
         }
     });
-    if (cantidadEmp===2) {
-      descuento += 32;
-      Promos++;
-      cantidadEmp -= 2;
-    }
-    while (cantidadEmp >= 6) {
-        descuento += 131;
-        cantidadEmp -= 6;
+    if(!pedidoYa){
+      if (cantidadEmp===2) {
+        descuento -= 32;
         Promos++;
-    }
-    while (cantidadEmp >= 3) {
-      descuento += 53;
-      cantidadEmp -= 3;
-      Promos++
-    }
-    while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1) || (Promos >= 1 && Smith >= 1) || (Promos >= 1 && Samba >= 1)){
-      if(Promos >= 1 && Bebidas600>=1){
-        descuento += 15;
-        Bebidas600--
-        Promos--
+        cantidadEmp -= 2;
       }
-      if(Promos >= 1 && Bebidas15>=1){
-        descuento += 45;
-        Bebidas15--
-        Promos--
+      while (cantidadEmp >= 6) {
+          descuento -= 131;
+          cantidadEmp -= 6;
+          Promos++;
       }
-      if(Promos >= 1 && Smith>=1){
-        descuento += 20;
-        Smith--
-        Promos--
+      while (cantidadEmp >= 3) {
+        descuento -= 53;
+        cantidadEmp -= 3;
+        Promos++
       }
-      if(Promos >= 1 && Samba>=1){
-        descuento += 10;
-        Samba--
-        Promos--
+      while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1) || (Promos >= 1 && Smith >= 1) || (Promos >= 1 && Samba >= 1)){
+        if(Promos >= 1 && Bebidas600>=1){
+          descuento -= 15;
+          Bebidas600--
+          Promos--
+        }
+        if(Promos >= 1 && Bebidas15>=1){
+          descuento -= 45;
+          Bebidas15--
+          Promos--
+        }
+        if(Promos >= 1 && Smith>=1){
+          descuento -= 20;
+          Smith--
+          Promos--
+        }
+        if(Promos >= 1 && Samba>=1){
+          descuento -= 10;
+          Samba--
+          Promos--
+        }
+      }
+    }else{
+      if (cantidadEmp===3 && Bebidas600 === 1) {
+        descuento -= 24;
+        Promos++;
+        cantidadEmp -= 2;
+      }
+      if (cantidadEmp===6 && Bebidas15 === 1) {
+        descuento -= 48;
+        Promos++;
+        cantidadEmp -= 2;
       }
     }
 
@@ -180,7 +204,7 @@ export const Carrito = () => {
 
 useEffect(() => {
     getDescuento();
-}, [carrito.Carrito.prods]);
+}, [carrito.Carrito.prods,pedidoYa]);
 
 
 
@@ -235,7 +259,44 @@ useEffect(() => {
   };
 
   return (
-    <div className="carrito-container">
+    <div    
+    style={{marginTop:"70px"}}
+      className="carrito-container">
+      <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px", // Espacio entre el texto y el botón
+  }}
+>
+  <h4 style={{ margin: 0 }}>Pedidos Ya</h4>
+  <div
+    onClick={handleToggle}
+    style={{
+      width: "60px",
+      height: "30px",
+      backgroundColor: pedidoYa ? "#ff0000" : "#ccc",
+      borderRadius: "30px",
+      display: "flex",
+      alignItems: "center",
+      padding: "5px",
+      cursor: "pointer",
+      transition: "background-color 0.3s",
+    }}
+  >
+    <div
+      style={{
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#fff",
+        borderRadius: "50%",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+        transform: pedidoYa ? "translateX(30px)" : "translateX(0)",
+        transition: "transform 0.3s",
+      }}
+    ></div>
+  </div>
+</div>
       {carrito.Carrito.prods.length === 0 ? (
         <p className="carrito-empty">No hay productos</p>
       ) : (
@@ -301,7 +362,7 @@ useEffect(() => {
           borderRadius: '5px',
         }}
       >
-        Total: ${carrito.Carrito.total-getDescuento()}
+        Total: ${carrito.Carrito.total+getDescuento()}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', marginTop: "20px" }}>
         <label
