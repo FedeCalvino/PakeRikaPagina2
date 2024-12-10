@@ -12,14 +12,7 @@ import {
 import { HeaderPakeRika } from "./HeaderPakeRika";
 
 // Registrar los componentes de Chart.js
-ChartJS.register(
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 export const Datos = () => {
   const [ordenes, setOrdenes] = useState([]);
@@ -41,22 +34,21 @@ export const Datos = () => {
     fetchOrdenes();
   }, []);
 
-  const procesarDatos = () => {
-    // Inicializar un array con índices del 8 al 23 (16 horas)
+  const procesarDatosPorRango = (inicio, fin) => {
     const horas = Array(24).fill(0);
 
     ordenes.forEach((orden) => {
       const fechaOrden = new Date(orden.Dia);
-      
       const fechaSeleccionada = new Date(fechaFiltro);
       fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
       if (
         fechaOrden.getFullYear() === fechaSeleccionada.getFullYear() &&
         fechaOrden.getMonth() === fechaSeleccionada.getMonth() &&
         fechaOrden.getDate() === fechaSeleccionada.getDate()
       ) {
         const hora = fechaOrden.getHours();
-        if (hora >= 10 && hora <= 23) {
+        if (hora >= inicio && hora <= fin) {
           horas[hora] += 1;
         }
       }
@@ -65,221 +57,97 @@ export const Datos = () => {
     return {
       labels: horas
         .map((_, index) => index)
-        .slice(10, 24)
+        .slice(inicio, fin + 1)
         .map((hora) => `${hora}:00 - ${hora + 1}:00`),
       datasets: [
         {
-          label: "Órdenes por Hora",
-          data: horas.slice(8, 24),
+          label: `Órdenes por Hora (${inicio}:00 - ${fin}:00)`,
+          data: horas.slice(inicio, fin + 1),
           backgroundColor: "#36A2EB",
           borderWidth: 1,
         },
       ],
     };
   };
+  
+  
 
-  const totalOrdenesDia = () => {
+  const calcularTotalesPorRango = (inicio, fin) => {
     return ordenes.reduce((total, orden) => {
       const fechaOrden = new Date(orden.Dia);
       const fechaSeleccionada = new Date(fechaFiltro);
       fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
       if (
         fechaOrden.getFullYear() === fechaSeleccionada.getFullYear() &&
         fechaOrden.getMonth() === fechaSeleccionada.getMonth() &&
         fechaOrden.getDate() === fechaSeleccionada.getDate()
       ) {
-        return total + 1;
+        const hora = fechaOrden.getHours();
+        if (hora >= inicio && hora <= fin) {
+          return total + orden.Total;
+        }
       }
       return total;
     }, 0);
   };
 
-  const total = () => {
-    return ordenes.reduce((total, orden) => {
-      const fechaOrden = new Date(orden.Dia);
-      const fechaSeleccionada = new Date(fechaFiltro);
-      fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
-      if (
-        fechaOrden.getFullYear() === fechaSeleccionada.getFullYear() &&
-        fechaOrden.getMonth() === fechaSeleccionada.getMonth() &&
-        fechaOrden.getDate() === fechaSeleccionada.getDate()
-      ) {
-        return total + orden.Total;
-      }
-      return total;
-    }, 0);
-  };
-
-  const calcularTotalesPorTipo = (tipo) => {
-    const fechaSeleccionada = new Date(fechaFiltro);
-    fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
-    console.log("fechaSeleccionada",fechaSeleccionada)
-    return ordenes.reduce((total, orden) => {
-      const fechaOrden = new Date(orden.Dia);  
-      if (
-        fechaOrden.getFullYear() === fechaSeleccionada.getFullYear() &&
-        fechaOrden.getMonth() === fechaSeleccionada.getMonth() &&
-        fechaOrden.getDate() === fechaSeleccionada.getDate()
-      ) {
-        const productos = orden.Articulos || [];
-        productos.forEach((producto) => {
-          if (producto.Categoria === tipo) {
-            total += producto.cantidad;
-          }
-        });
-      }
-      return total;
-    }, 0);
-  };
-
-  const totalEmpanadas = calcularTotalesPorTipo("Empanadas");
-  const totalBebidas = calcularTotalesPorTipo("Bebida");
-  const totalPizzas = calcularTotalesPorTipo("Promo");
+  const total12a16 = calcularTotalesPorRango(12, 16);
+  const total20a24 = calcularTotalesPorRango(20, 23);
 
   return (
     <>
       <HeaderPakeRika />
-      <div style={{ padding: "20px", margin: "0 auto" ,marginTop:"60px"}}>
-        
-      <div
-  style={{
-    position: "relative",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center", 
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
-    padding: "5px 10px",
-    boxSizing: "border-box",
-  }}
->
-
-  <button
-    onClick={() => {
-      const currentDate = new Date(fechaFiltro);
-      currentDate.setDate(currentDate.getDate() - 1); // Restar un día
-      setFechaFiltro(currentDate.toISOString().split("T")[0]);
-    }}
-    style={{
-      background: "none",
-      border: "none",
-      fontSize: "1.5rem",
-      color: "#333",
-      cursor: "pointer",
-      padding: "0 10px",
-    }}
-  >
-    &#8592; {/* Flecha hacia la izquierda */}
-  </button>
-
-  <input
-    type="date"
-    value={fechaFiltro}
-    onChange={(e) => setFechaFiltro(e.target.value)}
-    style={{
-      width: "150px",
-      padding: "10px",
-      fontSize: "1rem",
-      border: "none",
-      borderRadius: "5px",
-      backgroundColor: "#f7f7f7",
-      color: "#333",
-      outline: "none",
-    }}
-  />
-
-  <button
-    onClick={() => {
-      const currentDate = new Date(fechaFiltro);
-      currentDate.setDate(currentDate.getDate() + 1); // Sumar un día
-      setFechaFiltro(currentDate.toISOString().split("T")[0]);
-    }}
-    style={{
-      background: "none",
-      border: "none",
-      fontSize: "1.5rem",
-      color: "#333",
-      cursor: "pointer",
-      padding: "0 10px",
-    }}
-  >
-    &#8594; {/* Flecha hacia la derecha */}
-  </button>
-</div>
-
-        <div style={{ display: "flex", gap: "20px" }}>
-          <div
-            style={{
-              flex: "2",
-              border: "1px solid #ddd",
-              padding: "10px",
-              borderRadius: "8px",
+      <div style={{ padding: "20px", margin: "0 auto", marginTop: "60px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+            marginBottom: "20px",
+          }}
+        >
+          <button
+            onClick={() => {
+              const currentDate = new Date(fechaFiltro);
+              currentDate.setDate(currentDate.getDate() - 1);
+              setFechaFiltro(currentDate.toISOString().split("T")[0]);
             }}
           >
+            &#8592;
+          </button>
+          <input
+            type="date"
+            value={fechaFiltro}
+            onChange={(e) => setFechaFiltro(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              const currentDate = new Date(fechaFiltro);
+              currentDate.setDate(currentDate.getDate() + 1);
+              setFechaFiltro(currentDate.toISOString().split("T")[0]);
+            }}
+          >
+            &#8594;
+          </button>
+        </div>
+        <div style={{ display: "flex", gap: "20px" }}>
+          <div style={{ flex: "1", padding: "10px", border: "1px solid #ddd" }}>
             <Bar
-              data={procesarDatos()}
+              data={procesarDatosPorRango(12, 16)}
               options={{
                 responsive: true,
                 plugins: {
                   legend: { display: true, position: "top" },
-                  title: {
-                    display: true,
-                    text: `Órdenes por Hora (${fechaFiltro})`,
-                  },
+                  title: { display: true, text: "Órdenes de 12:00 a 16:00" },
                 },
-                scales: {
-                  x: {
-                    ticks: {
-                      autoSkip: false, // Asegura que todas las etiquetas sean visibles
-                    },
-                  },
-                  y: {
-                    beginAtZero: true, // Asegura que el eje Y comience desde 0
-                    ticks: {
-                      stepSize: 1, // Incrementa el eje Y de 1 en 1
-                    },
-                  },
-                },
+                ticks: {
+                    stepSize: 1, // Incrementa el eje Y de 1 en 1
+                  }
               }}
             />
-          </div>
-          <div
-            style={{
-              flex: "1",
-              border: "1px solid #ddd",
-              padding: "10px",
-              borderRadius: "8px",
-              backgroundColor: "#f9f9f9",
-            }}
-          >
-            <h2
-              style={{
-                textAlign: "center",
-                fontSize: "1.5rem",
-                marginBottom: "10px",
-                color: "#333",
-              }}
-            >
-              Totales del Día
-            </h2>
-            <div style={{ fontSize: "1.2rem", color: "#555" }}>
-              <p>
-                Órdenes: <strong>{totalOrdenesDia()}</strong>
-              </p>
-              <p>
-                Empanadas: <strong>{totalEmpanadas}</strong>
-              </p>
-              <p>
-                Bebidas: <strong>{totalBebidas}</strong>
-              </p>
-              <p>
-                Pizzas: <strong>{totalPizzas}</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
+           <div
           style={{
             border: "1px solid #ddd",
             padding: "20px",
@@ -298,8 +166,47 @@ export const Datos = () => {
               margin: "0",
             }}
           >
-            Total : <span style={{ fontSize: "2.5rem" }}>{total()}</span>
+            Total : <span style={{ fontSize: "2.5rem" }}>{total12a16}</span>
           </p>
+        </div>
+          </div>
+          <div style={{ flex: "1", padding: "10px", border: "1px solid #ddd" }}>
+            <Bar
+              data={procesarDatosPorRango(20, 24)}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: { display: true, position: "top" },
+                  title: { display: true, text: "Órdenes de 20:00 a 24:00" },
+                },
+                ticks: {
+                    stepSize: 1, // Incrementa el eje Y de 1 en 1
+                }
+              }}
+            />
+            <div
+          style={{
+            border: "1px solid #ddd",
+            padding: "20px",
+            marginTop: "20px",
+            borderRadius: "12px",
+            backgroundColor: "#e8f5e9",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "2rem",
+              color: "#2e7d32",
+              fontWeight: "bold",
+              margin: "0",
+            }}
+          >
+            Total : <span style={{ fontSize: "2.5rem" }}>{total20a24}</span>
+          </p>
+        </div>
+          </div>
         </div>
       </div>
     </>
