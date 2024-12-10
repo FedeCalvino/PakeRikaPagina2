@@ -8,6 +8,7 @@ import {CheckOut} from "./CheckOut"
 import { Link } from 'react-router-dom';
 import { Ordenes } from './Ordenes';
 import ManejoStock from './ManejoStock';
+import { Datos } from './Datos';
 
 export function App() {
     return (
@@ -19,6 +20,7 @@ export function App() {
                 <Route path="/CheckOutP" element={<CheckOut/>}/>
                 <Route path="/OrdenesP" element={<Ordenes/>}/>
                 <Route path="/StockP" element={<ManejoStock/>}/>
+                <Route path="/Cierre" element={<Datos/>}/>
         </Routes>   
         </BrowserRouter>
     </Provider>

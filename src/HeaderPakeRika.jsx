@@ -82,6 +82,9 @@ export const HeaderPakeRika = ({ setcarrito }) => {
                 <Link className="nav-link large-link" to="/StockP">Stock</Link>
               </li>
               <li className="nav-item mx-3">
+                <Link className="nav-link large-link" to="/Cierre">Resumen</Link>
+              </li>
+              <li className="nav-item mx-3">
                 <div className="nav-link" onClick={handleAddToCart}>
                   <p className={`carrito`}>
                     <FaShoppingCart /> Orden ({carrito.Carrito.prods ? carrito.Carrito.prods.length : 0})
