@@ -139,7 +139,7 @@ export const Datos = () => {
   return (
     <>
       <HeaderPakeRika />
-      <div style={{ padding: "20px", margin: "0 auto" }}>
+      <div style={{ padding: "20px", margin: "0 auto" ,marginTop:"60px"}}>
         
       <div
   style={{

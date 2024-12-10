@@ -22,7 +22,7 @@ export const Ordenes = () => {
   }, []);
 
   return (
-    <div style={{ margin: "20px" }}>
+    <div style={{ margin: "20px" ,marginTop:"70px"}}>
       <HeaderPakeRika />
       <h1 style={{ marginBottom: "20px", fontSize: "1.5rem" }}>
         Lista de Órdenes

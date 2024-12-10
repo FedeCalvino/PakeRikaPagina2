@@ -3,105 +3,64 @@ header {
   position: fixed;
   top: 0;
   left: 0;
+  height: 60px; /* Ajusta según tus necesidades */
   z-index: 1000;
-  background-color: yellow; /* Color de fondo amarillo */
-  transition: background-color 0.3s ease;
-}
-
-.transparent-header {
-  background-color: rgba(255, 255, 0, 0.7); /* Amarillo translúcido al hacer scroll */
-}
-.divPedir {
-  margin-top: 80px;
+  transition: background-color 0.3s ease, height 0.3s ease;
   display: flex;
-  justify-content: center;
+  align-items: center; /* Centra verticalmente el contenido */
+  padding: 0 20px; /* Agrega espacio horizontal */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
+
+
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-}
-
-/* Estilo normal para el botón */
-.divPedir {
-  position: relative;
-  margin-top: 100px;
-  text-align: center;
-}
-
-/* Estilo fijo cuando se hace scroll */
-.fixed-button {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1000;
-}
-
-.botonPedir {
-  background-color: #ff5722;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Parpadeo al añadir un producto */
-.parpadeo {
-  animation: blink 1s steps(5, start) infinite;
-}
-
-@keyframes blink {
-  to {
-    visibility: hidden;
-  }
-}
-
-img {
-  height: 55px;
-}
-
-li {
-  cursor: pointer;
-  user-select: none; /* Evita la selección de texto */
-}
-
-.navbar-light .navbar-nav .nav-link {
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.carritoDiv {
-  z-index: 1000;
-}
-
-.carrito {
-  cursor: pointer;
-}
-
-.carrito:hover {
-  color: red;
-}
-.large-link {
-  font-size: 1.5rem; /* Aumenta el tamaño de la fuente */
-  font-weight: bold;
-  padding: 15px 20px; /* Ajusta el espacio interno */
-  text-transform: uppercase;
-  color: inherit; /* Mantiene el color del tema */
-  text-decoration: none; /* Elimina el subrayado */
-  border: 2px solid transparent; /* Agrega un borde inicial transparente */
-  border-radius: 8px; /* Bordes redondeados */
-  margin: 0 10px; /* Espaciado horizontal entre enlaces */
-  transition: all 0.3s ease; /* Efecto suave en hover */
-}
-
-.large-link:hover {
-  color: #ffffff;
-  background-color: #007bff;
-  border: 2px solid #007bff;
-  text-decoration: none;
 }
 
 .navbar-nav {
   display: flex;
   align-items: center;
-  justify-content: center; 
-  gap: 20px; 
+  gap: 15px; /* Espaciado entre enlaces */
 }
 
+img {
+  height: 45px; /* Ajusta para mantener proporción */
+}
+
+.large-link {
+  font-size: 1rem; /* Ajusta para pantallas más pequeñas */
+  padding: 10px 15px; /* Reduce padding */
+  border-radius: 8px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.large-link:hover {
+  background-color: #007bff;
+  color: #fff;
+  border: 2px solid #007bff;
+}
+
+@media (max-width: 768px) {
+  header {
+    height: 70px; /* Ajusta para pantallas más pequeñas */
+    padding: 0 10px;
+  }
+
+  .navbar-nav {
+    flex-direction: column; /* Cambia a columna si es necesario */
+    gap: 10px;
+  }
+
+  img {
+    height: 40px;
+  }
+
+  .large-link {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}

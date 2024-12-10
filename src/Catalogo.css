@@ -6,6 +6,9 @@
 .ingredientes{
   opacity: 0;
 }
+.App{
+  margin-top: 60px;
+}
 .remove-btn {
   position: absolute;
   top: -8px;
