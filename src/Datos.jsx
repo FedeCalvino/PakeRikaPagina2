@@ -16,9 +16,14 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend)
 
 export const Datos = () => {
   const [ordenes, setOrdenes] = useState([]);
-  const [fechaFiltro, setFechaFiltro] = useState(
-    new Date().toISOString().split("T")[0]
-  ); // Día actual por defecto
+  
+  const getLocalISOString = (date) => {
+    const offset = date.getTimezoneOffset(); // Diferencia en minutos respecto al UTC
+    const localDate = new Date(date.getTime() - offset * 60 * 1000); // Ajusta la fecha al huso local
+    return localDate.toISOString().split("T")[0]; // Devuelve solo la parte de la fecha
+  };
+  
+  const [fechaFiltro, setFechaFiltro] = useState(getLocalISOString(new Date()));
 
   const fetchOrdenes = async () => {
     try {
