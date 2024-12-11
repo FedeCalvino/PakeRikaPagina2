@@ -213,7 +213,7 @@ export const Catalogo = () => {
         </div>
       <div className={carritoVisible ? "grid-container" : "grid-containerFull"}>
           {Artiuclos.map(Artiuclo => (
-            Artiuclo.Categoria === "Bebida" || Artiuclo.Categoria === "Agua" &&
+            (Artiuclo.Categoria === "Bebida" || Artiuclo.Categoria === "Agua") &&
             <div className={`card ${highlightedId === Artiuclo._id && 'highlight'} ${highlightedIdR === Artiuclo._id && 'highlightR'}`} key={Artiuclo._id}>
               {getCantidadEmpanada(Artiuclo._id) > 0 && (
                 <>
