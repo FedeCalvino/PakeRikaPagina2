@@ -12,6 +12,7 @@ export const Carrito = () => {
   const carrito = useSelector((state) => state.Carrito);
   const [metodoPago, setMetodoPago] = useState('Efectivo');
   const [showNotification, setShowNotification] = useState(false);
+  const [disabledOk, setdisabledOk] = useState(false);
   const port = 3078;
   //modal
   const [openModal, setOpenModal] = useState(false);
@@ -37,44 +38,54 @@ export const Carrito = () => {
   }
 
   async function saveOrder() {
-    
-    if(carrito.Carrito.prods.length>0){
-
+    if (carrito.Carrito.prods.length === 0) {
+      console.warn("El carrito está vacío. No se puede crear una orden.");
+      return;
+    }
+  
+    setdisabledOk(true); // Deshabilitar el botón mientras se procesa la orden.
+  
     const nuevaOrden = {
       Dia: new Date(),
       Pago: metodoPago,
       Hora: new Date().toLocaleTimeString(), // Obtener la hora actual del sistema
       Articulos: carrito.Carrito.prods,
-      Total: carrito.Carrito.total+getDescuento(),
-      Local:"Colonia",
-      PedidosYa:pedidoYa
+      Total: carrito.Carrito.total + getDescuento(),
+      Local: "Colonia",
+      PedidosYa: pedidoYa,
     };
-
-    console.log(nuevaOrden)
+  
+    console.log("Orden a guardar:", nuevaOrden);
+  
     try {
       const response = await fetch(`/SaveOrder`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(nuevaOrden)
+        body: JSON.stringify(nuevaOrden),
       });
-
+  
       if (!response.ok) {
         throw new Error('Error al guardar la orden');
-      } else {
-        const result = await response.json();
-        console.log('Orden guardada con éxito:', result);
-        setShowNotification(true);
-        DeleteCarrito();
-        setpedidoYa(false)
-        navigate("/OrdenesP")
       }
+  
+      const result = await response.json();
+      console.log('Orden guardada con éxito:', result);
+  
+      // Mostrar notificación y limpiar estado.
+      setShowNotification(true);
+      DeleteCarrito();
+      setpedidoYa(false);
+      navigate("/OrdenesP");
     } catch (error) {
-      console.error('Error:', error.message);
-    }
+      console.error('Error al guardar la orden:', error.message);
+      alert("Hubo un problema al guardar la orden. Inténtalo de nuevo.");
+    } finally {
+      setdisabledOk(false); // Habilitar el botón nuevamente.
     }
   }
+  
 
   const agregarEmp = async () => {
     const articulos = [
@@ -393,13 +404,15 @@ useEffect(() => {
           <option value="transferencia">Transferencia</option>
         </select>
       </div>
-
+        {disabledOk ?null :
+        <>
       <button
         className="Checkout-carrito"
         onClick={() => saveOrder()}
       >
         Crear Orden
       </button>
+    
       {openModal ?
         <>
           <button
@@ -429,6 +442,8 @@ useEffect(() => {
         >
           Eliminar Orden
         </button>
+      }
+      </>
       }
     </div>
   );
