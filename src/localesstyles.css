@@ -1,0 +1,45 @@
+.button-group {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a columna */
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 100%; /* Ocupa toda la altura disponible */
+    width: 100%; /* Asegúrate de que ocupe todo el ancho */
+}
+.login-container {
+    display: flex; /* Utiliza flexbox */
+    flex-direction: column; /* Alinea el contenido en columna */
+    justify-content: center; /* Centra verticalmente */
+    width: 90%; /* Ocupa todo el ancho */
+    height: 80%; /* Ocupa toda la altura de la ventana */
+    margin-top: 150px;
+    box-sizing: border-box; /* Asegúrate de incluir el padding/border */
+}
+
+.local-button {
+    width: 80%; /* Ocupa el 80% del ancho disponible */
+    max-width: 400px; /* Opcional: limita el ancho máximo */
+    padding: 20px; /* Aumenta el padding para mayor tamaño */
+    font-size: 1.2rem; /* Ajusta el tamaño de la fuente */
+    border: none;
+    border-radius: 5px;
+    height: 80%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.local-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.local-button:first-child {
+    background-color: #2196F3;
+}
+
+.local-button:first-child:hover {
+    background-color: #1976D2;
+}

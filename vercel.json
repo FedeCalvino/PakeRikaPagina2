@@ -9,6 +9,11 @@
         "destination": "http://200.40.89.254:3034/ordenesAll"
       },
       {
+        "source": "/OrdenesLocal",
+        "destination": "http://200.40.89.254:3034/OrdenesLocal"
+      }
+      ,
+      {
         "source": "/SaveOrder",
         "destination": "http://200.40.89.254:3034/SaveOrder"
       },{

@@ -16,7 +16,12 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend)
 
 export const Datos = () => {
   const [ordenes, setOrdenes] = useState([]);
-  
+
+  const [Local, setLocal] = useState(() => {
+    const storedLocal = sessionStorage.getItem('local');
+    return storedLocal ? JSON.parse(storedLocal) : null;
+  });
+
   const getLocalISOString = (date) => {
     const offset = date.getTimezoneOffset(); // Diferencia en minutos respecto al UTC
     const localDate = new Date(date.getTime() - offset * 60 * 1000); // Ajusta la fecha al huso local
@@ -27,7 +32,7 @@ export const Datos = () => {
 
   const fetchOrdenes = async () => {
     try {
-      const response = await fetch(`/Ordenes`);
+      const response = await fetch(`/OrdenesLocal?local=${Local}`);
       const data = await response.json();
       setOrdenes(data);
     } catch (error) {

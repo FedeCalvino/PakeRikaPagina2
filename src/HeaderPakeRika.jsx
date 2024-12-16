@@ -13,8 +13,16 @@ export const HeaderPakeRika = ({ setcarrito }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProductAdded, setIsProductAdded] = useState(false);
   const dispatch = useDispatch();
-  
+  const [User, setUser] = useState(() => {
+    const storedUser = sessionStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const carrito = useSelector((state) => state.Carrito);
+
+  const [Local, setLocal] = useState(() => {
+    const storedLocal = sessionStorage.getItem('local');
+    return storedLocal ? JSON.parse(storedLocal) : null;
+  });
 
   useEffect(() => {
     const carritoLocalStorage = localStorage.getItem('carrito');
@@ -60,9 +68,8 @@ export const HeaderPakeRika = ({ setcarrito }) => {
     setTimeout(() => setIsProductAdded(false), 2000);
   };
 
-  const goToCheckOut = () => {
-    GetLocaltion();
-    navigate("/CheckOut");
+  const changeLocal = () => {
+    navigate("/");
   };
 
   return (
@@ -70,10 +77,18 @@ export const HeaderPakeRika = ({ setcarrito }) => {
       <header className={isScrolled ? 'transparent-header' : ''}>
         <nav className="navbar navbar-light bg-light">
           <div className="container d-flex justify-content-between align-items-center">
-            <img src="./pakerikalogo-remove.png" alt="PakeRikas Logo" />
+          <button
+            style={{width:"100",height:"40px",backgroundColor:"red"}}
+            onClick={() => {
+              changeLocal()
+            }
+            }
+          >
+            Salir
+          </button>
             <ul className="navbar-nav d-flex flex-row">
               <li className="nav-item mx-3">
-                <Link className="nav-link large-link" to="/">Catálogo</Link>
+                <Link className="nav-link large-link" to="/CatologoP">Catálogo</Link>
               </li>
               <li className="nav-item mx-3">
                 <Link className="nav-link large-link" to="/OrdenesP">Órdenes</Link>
@@ -85,21 +100,17 @@ export const HeaderPakeRika = ({ setcarrito }) => {
                 <Link className="nav-link large-link" to="/StockP">Stock</Link>
               </li>
               <li className="nav-item mx-3">
-                <div className="nav-link" onClick={handleAddToCart}>
-                  <p className={`carrito`}>
-                    <FaShoppingCart /> Orden ({carrito.Carrito.prods ? carrito.Carrito.prods.length : 0})
-                  </p>
-                </div>
+                <Link className="nav-link large-link" to="/Extra">Extras</Link>
               </li>
-
             </ul>
+            {Local && (
+              <div style={{fontSize:"30px",fontWeight:"40px"}} className="user-info mx-3">
+                <span>{Local}</span>
+              </div>
+            )}
           </div>
         </nav>
       </header>
-      
-      <div className={`divPedir`}> 
-        {/* Opcional: botón para realizar pedido */}
-      </div>
     </>
   );
 };

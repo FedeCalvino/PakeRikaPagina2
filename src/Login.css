@@ -1,0 +1,64 @@
+.login-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  select, input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -10px;
+  }
+   
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .local-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    cursor: pointer;
+    color:black;
+    border-radius: 5px;
+  }
+  
+  .local-button.selected {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #0056b3;
+  }
+  
+  

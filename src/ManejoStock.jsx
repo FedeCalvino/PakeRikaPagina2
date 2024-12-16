@@ -174,6 +174,7 @@ export default function ManejoStock() {
 const styles = {
   container: {
     padding: "20px",
+    marginTop:"80px",
     fontFamily: "'Arial', sans-serif",
     backgroundColor: "#f8f9fa",
     borderRadius: "8px",

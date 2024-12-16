@@ -17,6 +17,11 @@ export const Carrito = () => {
   //modal
   const [openModal, setOpenModal] = useState(false);
 
+  const [Local, setLocal] = useState(() => {
+    const storedLocal = sessionStorage.getItem('local');
+    return storedLocal ? JSON.parse(storedLocal) : null;
+  });
+
   const [pedidoYa, setpedidoYa] = useState(false);
 
   const handleToggle = () => {
@@ -51,7 +56,7 @@ export const Carrito = () => {
       Hora: new Date().toLocaleTimeString(), // Obtener la hora actual del sistema
       Articulos: carrito.Carrito.prods,
       Total: carrito.Carrito.total + getDescuento(),
-      Local: "Colonia",
+      Local: Local,
       PedidosYa: pedidoYa,
     };
   
