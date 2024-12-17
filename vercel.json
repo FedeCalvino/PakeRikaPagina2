@@ -18,7 +18,7 @@
         "destination": "http://200.40.89.254:3034/SaveOrder"
       },{
         "source": "/UpdateStock/:id",
-        "destination": "http://200.40.89.254:3034/productos/updateStock/:id"
+        "destination": "http://200.40.89.254:3034/updateStock/:id"
       },
       {
         "source": "/StockP",
