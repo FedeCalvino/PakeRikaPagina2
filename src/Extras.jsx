@@ -26,7 +26,7 @@ export const Extras = () => {
         Fecha: Fecha
     }
     try {
-        const response = await fetch(`http://localhost:3019/SaveExtra`,{
+        const response = await fetch(`/SaveExtras`,{
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ export const Extras = () => {
 
   const fetchExtras = async () => {
     try {
-      const response = await fetch(`http://localhost:3019/getExtras`);
+      const response = await fetch(`/GetExtras`);
       const data = await response.json();
       setExtras(data);
     } catch (error) {

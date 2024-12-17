@@ -19,6 +19,12 @@
       },{
         "source": "/UpdateStock/:id",
         "destination": "http://200.40.89.254:3034/UpdateStock/:id"
+      },{
+        "source": "/GetExtras",
+        "destination": "http://200.40.89.254:3034/getExtras"
+      },{
+        "source": "/SaveExtras",
+        "destination": "http://200.40.89.254:3034/SaveExtra"
       },
       {
         "source": "/StockP",
