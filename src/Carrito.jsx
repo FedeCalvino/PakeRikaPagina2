@@ -154,6 +154,7 @@ export const Carrito = () => {
     let Bebidas15 = 0;
     let Promos = 0;
     let Smith500 = 0;
+    let Zapi=0;
 
     carrito.Carrito.prods.forEach((prod) => {
       if (prod.Categoria === "Empanadas") {
@@ -173,6 +174,9 @@ export const Carrito = () => {
         } else {
           Bebidas15 += prod.cantidad;
         }
+      }
+      if (prod.Categoria === "Zapi") {
+          Zapi++
       }
       if (prod.Categoria === "Promo") {
         if (prod.Nombre != "Marcianito") {
@@ -201,7 +205,8 @@ export const Carrito = () => {
         (Promos >= 1 && Bebidas15 >= 1) ||
         (Promos >= 1 && Smith >= 1) ||
         (Promos >= 1 && Samba >= 1) ||
-        (Promos >= 1 && Smith500 >= 1)
+        (Promos >= 1 && Smith500 >= 1) ||
+        (Zapi>=1 && Bebidas600 >= 1)
       ) {
         if (Promos >= 1 && Bebidas600 >= 1) {
           descuento -= 15;
@@ -227,6 +232,11 @@ export const Carrito = () => {
           descuento -= 10;
           Smith500--;
           Promos--;
+        }
+        if (Zapi >= 1 && Bebidas600 >= 1) {
+          descuento -= 15;
+          Bebidas600--;
+          Zapi--;
         }
       }
     } else {
