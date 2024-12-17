@@ -30,12 +30,16 @@ export const Carrito = () => {
   const [pedidoYa, setpedidoYa] = useState(false);
   const [Rappi, setRappi] = useState(false);
 
-  const handleToggle = () => {
+  const handleToggle = (Tipo) => {
+    if(Tipo==="Pedidos"){
     setpedidoYa((prevState) => !prevState);
+    setRappi(false);
+    }
+    if(Tipo==="Rappi"){
+      setRappi((prevState) => !prevState);
+      setpedidoYa(false)
+    }
   };
-  const handleToggleRappi =()=>{
-    setRappi((prevState) => !prevState);
-  }
 
   const updateCarrito = (empanada, quantityChange) => {
     console.log(
@@ -72,6 +76,7 @@ export const Carrito = () => {
       Total: carrito.Carrito.total + getDescuento(),
       Local: Local,
       PedidosYa: pedidoYa,
+      Rappi:Rappi
     };
 
     console.log("Orden a guardar:", nuevaOrden);
@@ -184,7 +189,7 @@ export const Carrito = () => {
         }
       }
     });
-    if (!pedidoYa) {
+    if (!pedidoYa && !Rappi) {
       if (cantidadEmp === 2) {
         descuento -= 32;
         Promos++;
@@ -239,7 +244,8 @@ export const Carrito = () => {
           Zapi--;
         }
       }
-    } else {
+    }
+    if(pedidoYa){
       if (cantidadEmp === 3 && Bebidas600 === 1) {
         descuento -= 24;
         Promos++;
@@ -249,6 +255,12 @@ export const Carrito = () => {
         descuento -= 48;
         Promos++;
         cantidadEmp -= 2;
+      }
+    }
+    if(Rappi){
+      while(cantidadEmp>0){
+        descuento+=16;
+        cantidadEmp--;
       }
     }
 
@@ -337,7 +349,7 @@ export const Carrito = () => {
   >
     <h4 style={{ margin: 0 }}>Pedidos Ya</h4>
     <div
-      onClick={handleToggle}
+      onClick={()=>handleToggle("Pedidos")}
       style={{
         width: "60px",
         height: "30px",
@@ -383,7 +395,7 @@ export const Carrito = () => {
   >
     <h4 style={{ margin: 0 }}>Rappi</h4>
     <div
-      onClick={handleToggleRappi}
+      onClick={()=>handleToggle("Rappi")}
       style={{
         width: "60px",
         height: "30px",
