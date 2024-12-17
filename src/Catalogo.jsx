@@ -229,6 +229,61 @@ export const Catalogo = () => {
             margin: "0 10px", // Espaciado entre imagen y texto
           }}
         >
+          La Zapi
+        </p>
+      </div>
+      <div className={carritoVisible ? "grid-container" : "grid-containerFull"}>
+        {Artiuclos.map(
+          (Artiuclo) =>
+            (Artiuclo.Categoria === "Zapi") && (
+              <div
+                className={`card ${
+                  highlightedId === Artiuclo._id && "highlight"
+                } ${highlightedIdR === Artiuclo._id && "highlightR"}`}
+                key={Artiuclo._id}
+              >
+                {getCantidadEmpanada(Artiuclo._id) > 0 && (
+                  <>
+                    <img
+                      className="remove-btn"
+                      src="./borrar-removebg.png"
+                      alt="Eliminar"
+                      style={{ userSelect: "none" }}
+                      onClick={() => removeEmpanada(Artiuclo)}
+                    />
+                    <div
+                      className="quantity-badge"
+                      style={{ userSelect: "none" }}
+                    >
+                      {getCantidadEmpanada(Artiuclo._id)}
+                    </div>
+                  </>
+                )}
+                <div className="cartaAdd" onClick={() => addArticulo(Artiuclo)}>
+                  <h2>{Artiuclo.Nombre}</h2>
+                </div>
+              </div>
+            )
+        )}
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center", // Centra verticalmente
+          textAlign: "center",
+        }}
+      >
+        <p
+          style={{
+            fontSize: "40px",
+            textAlign: "center",
+            marginLeft: "150px",
+            fontWeight: "bold",
+            color: "#333",
+            margin: "0 10px", // Espaciado entre imagen y texto
+          }}
+        >
           Bebidas
         </p>
       </div>
