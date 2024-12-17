@@ -139,6 +139,7 @@ export const Carrito = () => {
     let Smith = 0;
     let Bebidas15 = 0;
     let Promos = 0;
+    let Smith500=0;
 
     carrito.Carrito.prods.forEach(prod => {
       
@@ -152,6 +153,8 @@ export const Carrito = () => {
             Bebidas600+=prod.cantidad;
           }else if(prod.Nombre==="Smith 44"){
             Smith+=prod.cantidad;
+          }else if(prod.Nombre==="Smith 500ml"){
+            Smith500+=prod.cantidad;
           }else if(prod.Nombre==="Samba"){
             Samba+=prod.cantidad;
           }else{
@@ -180,7 +183,7 @@ export const Carrito = () => {
         cantidadEmp -= 3;
         Promos++
       }
-      while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1) || (Promos >= 1 && Smith >= 1) || (Promos >= 1 && Samba >= 1)){
+      while ((Promos >= 1 && Bebidas600 >= 1) || (Promos >= 1 && Bebidas15 >= 1) || (Promos >= 1 && Smith >= 1) || (Promos >= 1 && Samba >= 1) || (Promos >= 1 && Smith500 >= 1)){
         if(Promos >= 1 && Bebidas600>=1){
           descuento -= 15;
           Bebidas600--
@@ -199,6 +202,11 @@ export const Carrito = () => {
         if(Promos >= 1 && Samba>=1){
           descuento -= 10;
           Samba--
+          Promos--
+        }
+        if(Promos >= 1 && Smith500>=1){
+          descuento -= 10;
+          Smith500--
           Promos--
         }
       }
