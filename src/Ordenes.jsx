@@ -104,6 +104,21 @@ export const Ordenes = () => {
                     />
                   </div>
                 )}
+                {orden.Rappi && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                    }}
+                  >
+                    <img
+                      src="/Rappi.png"
+                      alt="Rappi Logo"
+                      style={{ width: "130px", height: "auto", borderRadius: "13px" }}
+                    />
+                  </div>
+                )}
                 <div style={{ marginBottom: "10px", fontSize: "0.9rem" }}>
                   <strong>Fecha:</strong>{" "}
                   {new Date(orden.Dia).toLocaleDateString()} <br />
