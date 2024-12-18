@@ -40,6 +40,10 @@
       {
         "source": "/CatologoP",
         "destination": "/index.html"
+      },
+      {
+        "source": "/Extra",
+        "destination": "/index.html"
       }
       
     ]
