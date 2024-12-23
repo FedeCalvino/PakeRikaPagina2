@@ -102,7 +102,7 @@ export const Datos = () => {
     }, 0);
   };
 
-  const total12a16 = calcularTotalesPorRango(12, 16);
+  const total11a16 = calcularTotalesPorRango(11, 16);
   const total20a24 = calcularTotalesPorRango(20, 23);
 
   return (
@@ -145,7 +145,7 @@ export const Datos = () => {
         <div style={{ display: "flex", gap: "20px" }}>
           <div style={{ flex: "1", padding: "10px", border: "1px solid #ddd" }}>
             <Bar
-              data={procesarDatosPorRango(12, 16)}
+              data={procesarDatosPorRango(11, 16)}
               options={{
                 responsive: true,
                 plugins: {
@@ -176,7 +176,7 @@ export const Datos = () => {
               margin: "0",
             }}
           >
-            Total : <span style={{ fontSize: "2.5rem" }}>{total12a16}</span>
+            Total : <span style={{ fontSize: "2.5rem" }}>{total11a16}</span>
           </p>
         </div>
           </div>
