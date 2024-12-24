@@ -74,43 +74,46 @@ export const HeaderPakeRika = ({ setcarrito }) => {
 
   return (
     <>
-      <header className={isScrolled ? 'transparent-header' : ''}>
-        <nav className="navbar navbar-light bg-light">
-          <div className="container d-flex justify-content-between align-items-center">
-          <button
-            style={{width:"100",height:"40px",backgroundColor:"red"}}
-            onClick={() => {
-              changeLocal()
-            }
-            }
-          >
-            Salir
-          </button>
-            <ul className="navbar-nav d-flex flex-row">
-              <li className="nav-item mx-3">
-                <Link className="nav-link large-link" to="/CatologoP">Catálogo</Link>
-              </li>
-              <li className="nav-item mx-3">
-                <Link className="nav-link large-link" to="/OrdenesP">Órdenes</Link>
-              </li>
-              <li className="nav-item mx-3">
-                <Link className="nav-link large-link" to="/Cierre">Resumen</Link>
-              </li>
-              <li className="nav-item mx-3">
-                <Link className="nav-link large-link" to="/StockP">Stock</Link>
-              </li>
-              <li className="nav-item mx-3">
-                <Link className="nav-link large-link" to="/Extra">Extras</Link>
-              </li>
-            </ul>
-            {Local && (
-              <div style={{fontSize:"30px",fontWeight:"40px"}} className="user-info mx-3">
-                <span>{Local}</span>
-              </div>
-            )}
-          </div>
-        </nav>
-      </header>
+     <header className={isScrolled ? 'transparent-header' : ''}>
+  <nav className="navbar navbar-light bg-light">
+    <div className="container d-flex align-items-center justify-content-between">
+      {/* Botón Salir */}
+      <button
+        className="btn btn-danger btn-sm"
+        onClick={changeLocal}
+      >
+        Salir
+      </button>
+
+      {/* Navegación */}
+      <ul className="navbar-nav d-flex flex-row mx-3">
+        <li className="nav-item mx-2">
+          <Link className="nav-link large-link" to="/CatologoP">Catálogo</Link>
+        </li>
+        <li className="nav-item mx-2">
+          <Link className="nav-link large-link" to="/OrdenesP">Órdenes</Link>
+        </li>
+        <li className="nav-item mx-2">
+          <Link className="nav-link large-link" to="/Cierre">Resumen</Link>
+        </li>
+        <li className="nav-item mx-2">
+          <Link className="nav-link large-link" to="/StockP">Stock</Link>
+        </li>
+        <li className="nav-item mx-2">
+          <Link className="nav-link large-link" to="/Extra">Extras</Link>
+        </li>
+      </ul>
+
+      {/* Local */}
+      {Local && (
+        <div className="user-info text-nowrap">
+          <span>{Local}</span>
+        </div>
+      )}
+    </div>
+  </nav>
+</header>
+
     </>
   );
 };
