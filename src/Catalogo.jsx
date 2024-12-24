@@ -18,6 +18,7 @@ export const Catalogo = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     const CarritoGuardado = localStorage.getItem("carrito");
 
     console.log("CarritoGuardado", CarritoGuardado);
@@ -29,6 +30,7 @@ export const Catalogo = () => {
     }
 
     fetchArticulos();
+
   }, []);
 
   useEffect(() => {
@@ -290,7 +292,7 @@ export const Catalogo = () => {
       <div className={carritoVisible ? "grid-container" : "grid-containerFull"}>
         {Artiuclos.map(
           (Artiuclo) =>
-            (Artiuclo.Categoria === "Bebida" ||
+            (Artiuclo.Categoria === "Bebida" || Artiuclo.Categoria === "BebidaNPromo" ||
               Artiuclo.Categoria === "Agua") && (
               <div
                 className={`card ${
