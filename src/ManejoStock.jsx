@@ -446,7 +446,7 @@ export default function ManejoStock() {
                     <td style={{ verticalAlign: "Top" }}>
                       <h3>Bebidas</h3>
                       {Artiuclos.filter(
-                        (product) => product.Categoria === "Bebida" || product.Categoria === "BebidaNPromo" || product.Categoria === "Agua" ||
+                        (product) => product.Categoria === "Bebida" || product.Categoria === "BebidaNPromo" || product.Categoria === "Agua"
                       ).map((product) => (
                         <div key={product._id} style={styles.row}>
                           <span style={styles.name}>{product.Nombre}</span>
@@ -470,7 +470,7 @@ export default function ManejoStock() {
                       <h3>Promos</h3>
                       {Artiuclos.filter(
                         (product) =>  
-                        
+
                         product.Categoria !== "Bebida" &&
                         product.Categoria !== "Empanadas" &&
                         product.Categoria !== "Agua" &&
