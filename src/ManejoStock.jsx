@@ -611,7 +611,7 @@ const styles = {
 
   input: {
     width: "200px",
-    backgroundColor: "#eaeaea", // Gris claro azulado (Light Steel Blue), un tono suave y agradable
+    backgroundColor: "#00FF00",    // Gris claro azulado (Light Steel Blue), un tono suave y agradable
     color: "black",
     padding: "5px",
     fontSize: "21px",
