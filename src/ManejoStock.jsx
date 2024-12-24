@@ -189,6 +189,7 @@ export default function ManejoStock() {
       await Promise.all(updatePromises);
       console.log("Todos los productos se han actualizado correctamente.");
       setshow(false)
+      window.location.reload()
       // Mostrar alerta de éxito
       window.alert("¡Stock actualizado correctamente!");
     } catch (error) {
