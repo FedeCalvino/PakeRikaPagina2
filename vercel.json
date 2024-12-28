@@ -2,29 +2,29 @@
     "rewrites": [
       {
         "source": "/articulos",
-        "destination": "http://200.40.89.254:3034/articulosAll"
+        "destination": "http://18.223.172.225:3034/articulosAll"
       },
       {
         "source": "/Ordenes",
-        "destination": "http://200.40.89.254:3034/ordenesAll"
+        "destination": "http://18.223.172.225:3034/ordenesAll"
       },
       {
         "source": "/OrdenesLocal",
-        "destination": "http://200.40.89.254:3034/OrdenesLocal"
+        "destination": "http://18.223.172.225:3034/OrdenesLocal"
       }
       ,
       {
         "source": "/SaveOrder",
-        "destination": "http://200.40.89.254:3034/SaveOrder"
+        "destination": "http://18.223.172.225:3034/SaveOrder"
       },{
         "source": "/UpdateStock/:id",
-        "destination": "http://200.40.89.254:3034/UpdateStock/:id"
+        "destination": "http://18.223.172.225:3034/UpdateStock/:id"
       },{
         "source": "/GetExtras",
-        "destination": "http://200.40.89.254:3034/getExtras"
+        "destination": "http://18.223.172.225:3034/getExtras"
       },{
         "source": "/SaveExtras",
-        "destination": "http://200.40.89.254:3034/SaveExtra"
+        "destination": "http://18.223.172.225:3034/SaveExtra"
       },
       {
         "source": "/StockP",
