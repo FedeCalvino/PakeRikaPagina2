@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Catalogo } from './Catalogo';
 import { store } from './Store';
 import { Provider } from 'react-redux';
@@ -30,6 +30,13 @@ function App() {
         if (!string) return ""; 
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    useEffect(() => {
+        sessionStorage.setItem('local', JSON.stringify("Colonia")); // Correcto: "Colonia" se convierte en JSON válido
+        setLocal("Colonia");
+    }, []);
+    
+
 
     const login = async (contrasena) => {
         try {
@@ -70,7 +77,7 @@ function App() {
 
     return (
         <Routes>
-            <Route path='/' element={<Locales setLocal={setLocales}/>}/>
+            <Route path='/' element={<Catalogo/>}/>
             <Route path='/otro' element={
                 <ProtectedRoute user={User} login={login}>
                     <Catalogo/>

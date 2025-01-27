@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { HeaderPakeRika } from "./HeaderPakeRika";
 import { Modal, Button, Form } from "react-bootstrap";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function ManejoStock() {
   const [Artiuclos, setArticulos] = useState([]);
@@ -8,6 +9,7 @@ export default function ManejoStock() {
   const [ordenes, setOrdenes] = useState([]);
   const [productosAgregados, setProductosAgregados] = useState([]);
   const [Product, setProduct] = useState();
+  const [Empleado, setEmpleado] = useState(null);
   const selectedProduct = Artiuclos.find((product) => product._id === Product);
   const [show, setshow] = useState(false);
 
@@ -15,7 +17,10 @@ export default function ManejoStock() {
     const storedLocal = sessionStorage.getItem("local");
     return storedLocal ? JSON.parse(storedLocal) : null;
   });
-
+  const Empleados = [
+    { _id: "1", Nombre: "Romina" },
+    { _id: "2", Nombre: "María López" },
+  ];
   const [cantidadAgregar, setCantidadAgregar] = useState(0);
 
   const handleCantidadChange = (e) => {
@@ -88,7 +93,7 @@ export default function ManejoStock() {
     try {
       const response = await fetch(`/articulos`);
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Network response was not ok articulos");
       }
       const data = await response.json();
       console.log("data", data);
@@ -165,6 +170,7 @@ export default function ManejoStock() {
   };
 
   const handleSave = async () => {
+  if(Empleado!==null){
     try {
       const updatePromises = productosAgregados.map(async (arti) => {
         const response = await fetch(`/UpdateStock/${arti._id}`, {
@@ -175,6 +181,7 @@ export default function ManejoStock() {
           body: JSON.stringify({
             stockRivera: arti.StockRivera,
             stockColonia: arti.StockColonia,
+            empleado:Empleados.find((emp)=>emp._id===Empleado).Nombre
           }),
         });
 
@@ -197,6 +204,9 @@ export default function ManejoStock() {
       // Mostrar alerta de error
       window.alert("Hubo un error al guardar el stock. Inténtalo de nuevo.");
     }
+    }else{
+      toast.error("Seleccione un empleado")
+    } 
   };
 
   const GetCantidad = (producto, local) => {
@@ -221,6 +231,21 @@ export default function ManejoStock() {
         <Modal.Body>
           <Form>
             {/* Formulario de agregar stock */}
+            <Form.Group controlId="formProducto">
+              <Form.Label>Empleado</Form.Label>
+              <Form.Control
+                as="select"
+                onChange={(e) => setEmpleado(e.target.value)}
+              >
+                <option value="">-- Selecciona un Empleado --</option>
+                {Empleados.map((emp) => (
+                  <option key={emp._id} value={emp._id}>
+                    {emp.Nombre}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+
             <Form.Group controlId="formProducto">
               <Form.Label>Selecciona un Producto</Form.Label>
               <Form.Control
@@ -327,6 +352,17 @@ export default function ManejoStock() {
     <button onClick={() => setshow(true)} style={styles.button}>
         Ingreso Stock
     </button>
+    <div>
+        <Toaster
+          position="bottom-center"
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              zIndex: 9999,
+            },
+          }}
+        />
+      </div>
 </div>
 
         <div style={styles.tablesContainer}>
