@@ -32,8 +32,8 @@ function App() {
     }
 
     useEffect(() => {
-        sessionStorage.setItem('local', JSON.stringify("Colonia")); // Correcto: "Colonia" se convierte en JSON válido
-        setLocal("Colonia");
+        sessionStorage.setItem('local', JSON.stringify("Rivera")); 
+        setLocal("Rivera");
     }, []);
     
 
