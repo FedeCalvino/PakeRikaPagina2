@@ -18,8 +18,7 @@ export default function ManejoStock() {
     return storedLocal ? JSON.parse(storedLocal) : null;
   });
   const Empleados = [
-    { _id: "1", Nombre: "Romina" },
-    { _id: "2", Nombre: "María López" },
+    { _id: "1", Nombre: "Ariel" }
   ];
   const [cantidadAgregar, setCantidadAgregar] = useState(0);
 
