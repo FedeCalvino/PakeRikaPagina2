@@ -2,11 +2,11 @@
     "rewrites": [
       {
         "source": "/articulos",
-        "destination": "http://18.223.172.225:3034/articulosAll"
+        "destination": "http://200.40.89.254:3034/Ordenesverduleria"
       },
       {
         "source": "/Ordenes",
-        "destination": "http://18.223.172.225:3034/ordenesAll"
+        "destination": "http://200.40.89.254:3034/Ordenesverduleria"
       },
       {
         "source": "/OrdenesLocal",
@@ -15,7 +15,7 @@
       ,
       {
         "source": "/SaveOrder",
-        "destination": "http://18.223.172.225:3034/SaveOrder"
+        "destination": "http://200.40.89.254:3034/SaveOrderVerduleria"
       },{
         "source": "/UpdateStock/:id",
         "destination": "http://18.223.172.225:3034/UpdateStock/:id"

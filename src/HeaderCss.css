@@ -3,64 +3,46 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  height: 60px; /* Ajusta según tus necesidades */
   z-index: 1000;
-  transition: background-color 0.3s ease, height 0.3s ease;
-  display: flex;
-  align-items: center; /* Centra verticalmente el contenido */
-  padding: 0 20px; /* Agrega espacio horizontal */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+  background-color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
 .navbar {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
 
 .navbar-nav {
   display: flex;
-  align-items: center;
-  gap: 15px; /* Espaciado entre enlaces */
-}
-
-img {
-  height: 45px; /* Ajusta para mantener proporción */
+  flex-wrap: wrap; /* Permite ajustar las filas */
+  gap: 15px;
+  justify-content: center;
 }
 
 .large-link {
-  font-size: 1rem; /* Ajusta para pantallas más pequeñas */
-  padding: 10px 15px; /* Reduce padding */
-  border-radius: 8px;
+  font-size: 1rem;
+  padding: 8px 12px;
   text-transform: uppercase;
+  border-radius: 8px;
   transition: all 0.3s ease;
 }
 
 .large-link:hover {
   background-color: #007bff;
-  color: #fff;
-  border: 2px solid #007bff;
+  color: white;
 }
 
-@media (max-width: 768px) {
-  header {
-    height: 70px; /* Ajusta para pantallas más pequeñas */
-    padding: 0 10px;
-  }
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+}
 
-  .navbar-nav {
-    flex-direction: column; /* Cambia a columna si es necesario */
-    gap: 10px;
-  }
-
-  img {
-    height: 40px;
-  }
-
-  .large-link {
-    font-size: 0.9rem;
-    padding: 8px 10px;
-  }
+.user-info {
+  font-size: 0.9rem;
+  font-weight: 500;
 }

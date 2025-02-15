@@ -19,28 +19,45 @@ export const CarritoSlice = createSlice({
         },
         updateProducto: (state, action) => {
             console.log("state.Carrito",state.Carrito.Carrito)
-            const { empanada, quantityChange } = action.payload;
-            const foundEmpanada = state.Carrito.prods ? state.Carrito.prods.find(item => item._id === empanada._id) : null;
+            const { Prod, quantityChange } = action.payload;
+            const foundEmpanada = state.Carrito.prods ? state.Carrito.prods.find(item => item._id === Prod._id) : null;
             if (foundEmpanada) {
                 foundEmpanada.cantidad += quantityChange;
                 if (foundEmpanada.cantidad <= 0) {
-                    state.Carrito.prods = state.Carrito.prods.filter(item => item._id !== empanada._id);
+                    state.Carrito.prods = state.Carrito.prods.filter(item => item._id !== Prod._id);
                 }
             } else if (quantityChange > 0) {
-                state.Carrito.prods.push({ ...empanada, cantidad: quantityChange });
+                state.Carrito.prods.push({ ...Prod, cantidad: quantityChange });
             }
         
             console.log('Productos en el carrito:', state.Carrito.prods);
         },
+        updatePeso: (state, action) => {
+            console.log("state.Carrito",state.Carrito.Carrito)
+            const { Prod, Peso } = action.payload;
+            const foundProd = state.Carrito.prods ? state.Carrito.prods.find(item => item._id === Prod._id) : null;
+            if (foundProd) {
+                foundProd.Peso = Peso;
+                foundProd.PrecioPeso = (Peso*foundProd.Precio).toFixed(1);
+            }
+            console.log('Productos en el carrito:', state.Carrito.prods);
+        },
         updateTotal: (state, action) => {
-            const { empanada, quantityChange } = action.payload;
-            const precio = parseFloat(empanada.Precio);
-            state.Carrito.total += precio * quantityChange;
-            console.log('Total actualizado:', state.Carrito.total);
+            let Total=0
+            state.Carrito.prods.map(((Produc)=>{
+                if(Produc.UnidadPeso!=="Peso"){
+                    const precio = parseFloat(Produc.Precio);
+                    Total += precio * Produc.cantidad;
+                }else{
+                    const precio = parseFloat(Produc.PrecioPeso);
+                    Total += precio;
+                }
+            }))
+            state.Carrito.total = Total;
         },        
     }
 });
 
-export const { setCarritoSlice, clearCarritoSlice, updateProducto, updateTotal } = CarritoSlice.actions;
+export const { setCarritoSlice, clearCarritoSlice, updateProducto, updateTotal,updatePeso } = CarritoSlice.actions;
 
 export default CarritoSlice.reducer;

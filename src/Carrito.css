@@ -57,7 +57,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
+    height: 50px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
     overflow: hidden; /* Asegura que el contenido no se desborde fuera de cada item */

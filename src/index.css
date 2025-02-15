@@ -17,6 +17,9 @@
   width: 100%;
   background-color: yellow;
 }
+input{
+  background-color: white;
+}
 a {
   font-weight: 500;
   color: #646cff;

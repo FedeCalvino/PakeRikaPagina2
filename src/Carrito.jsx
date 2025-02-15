@@ -5,10 +5,12 @@ import {
   updateProducto,
   updateTotal,
   clearCarritoSlice,
+  updatePeso
 } from "./Features/CarritoSlice";
 import { useNavigate } from "react-router-dom";
 import { setPosition } from "./Features/PositionSlice";
 import { Modal } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 
 export const Carrito = () => {
   const navigate = useNavigate();
@@ -41,17 +43,18 @@ export const Carrito = () => {
     }
   };
 
-  const updateCarrito = (empanada, quantityChange) => {
+  const updateCarrito = (Prod, quantityChange) => {
     console.log(
       "Actualizando carrito con empanada:",
-      empanada,
+      Prod,
       "Cantidad:",
       quantityChange
     );
     console.log("carrito", carrito);
-    dispatch(updateProducto({ empanada, quantityChange }));
-    dispatch(updateTotal({ empanada, quantityChange }));
+    dispatch(updateProducto({ Prod, quantityChange }));
+    dispatch(updateTotal({ Prod, quantityChange }));
   };
+
   const DeleteCarrito = () => {
     dispatch(clearCarritoSlice());
   };
@@ -73,11 +76,12 @@ export const Carrito = () => {
       Pago: metodoPago,
       Hora: new Date().toLocaleTimeString(), // Obtener la hora actual del sistema
       Articulos: carrito.Carrito.prods,
-      Total: carrito.Carrito.total + getDescuento(),
+      Total: carrito.Carrito.total,
       Local: Local,
       PedidosYa: pedidoYa,
       Rappi:Rappi
     };
+    console.log(nuevaOrden)
 
     console.log("Orden a guardar:", nuevaOrden);
 
@@ -108,6 +112,11 @@ export const Carrito = () => {
     } finally {
       setdisabledOk(false); // Habilitar el botón nuevamente.
     }
+  }
+  const setPeso =(Peso,Prod)=>{
+    dispatch(updatePeso({ Prod, Peso }));
+    const quantityChange = 1;
+    dispatch(updateTotal({Prod,quantityChange}))
   }
 
   const agregarEmp = async () => {
@@ -151,125 +160,56 @@ export const Carrito = () => {
     }
   };
   const getDescuento = () => {
-    let cantidadEmp = 0;
-    let descuento = 0;
-    let Bebidas600 = 0;
-    let Samba = 0;
-    let Smith = 0;
-    let Bebidas15 = 0;
-    let Promos = 0;
-    let Smith500 = 0;
-    let Zapi=0;
+    let descuento=0
+    let cantidadLavarropa = 0;
+    let AguaSanitaria1 = 0;
+    let AguaSanitaria2 = 0;
+    let AguaSanitaria5 = 0;
+    let Suavizante = 0;
+
 
     carrito.Carrito.prods.forEach((prod) => {
-      if (prod.Categoria === "Empanadas") {
-        cantidadEmp += prod.cantidad;
-      }
-      console.log("prod.Categoria", prod.Categoria);
-      if (prod.Categoria === "Bebida") {
-        console.log("prod.Nombre", prod.Nombre);
-        if (prod.Nombre === "Bebida 600ml") {
-          Bebidas600 += prod.cantidad;
-        } else if (prod.Nombre === "Smith 44") {
-          Smith += prod.cantidad;
-        } else if (prod.Nombre === "Smith 500ml") {
-          Smith500 += prod.cantidad;
-        } else if (prod.Nombre === "Samba") {
-          Samba += prod.cantidad;
-        } else {
-          Bebidas15 += prod.cantidad;
+      const nombreProd = prod.Nombre
+        if (nombreProd === "Lavarropa Brilha") {
+          cantidadLavarropa = prod.cantidad;
+        } else if (nombreProd === "Agua Sanitaria 1 lt") {
+          AguaSanitaria1 = prod.cantidad;
+        } else if (nombreProd === "Agua Sanitaria 2 lt") {
+          AguaSanitaria2 = prod.cantidad;
+        } else if (nombreProd === "Agua Sanitaria 5 lt") {
+          AguaSanitaria5 = prod.cantidad;
+        } else if (nombreProd === "Suavizante Brilha") {
+          Suavizante = prod.cantidad;
         }
-      }
-      if (prod.Categoria === "Zapi") {
-          Zapi++
-      }
-      if (prod.Categoria === "Promo") {
-        if (prod.Nombre != "Marcianito") {
-          Promos += prod.cantidad;
-        }
-      }
     });
-    if (!pedidoYa && !Rappi) {
-      if (cantidadEmp === 2) {
-        descuento -= 32;
-        Promos++;
-        cantidadEmp -= 2;
-      }
-      while (cantidadEmp >= 6) {
-        descuento -= 131;
-        cantidadEmp -= 6;
-        Promos++;
-      }
-      while (cantidadEmp >= 3) {
-        descuento -= 53;
-        cantidadEmp -= 3;
-        Promos++;
-      }
-      while (
-        (Promos >= 1 && Bebidas600 >= 1) ||
-        (Promos >= 1 && Bebidas15 >= 1) ||
-        (Promos >= 1 && Smith >= 1) ||
-        (Promos >= 1 && Samba >= 1) ||
-        (Promos >= 1 && Smith500 >= 1) ||
-        (Zapi>=1 && Bebidas600 >= 1)
-      ) {
-        if (Promos >= 1 && Bebidas600 >= 1) {
-          descuento -= 15;
-          Bebidas600--;
-          Promos--;
-        }
-        if (Promos >= 1 && Bebidas15 >= 1) {
-          descuento -= 45;
-          Bebidas15--;
-          Promos--;
-        }
-        if (Promos >= 1 && Smith >= 1) {
-          descuento -= 20;
-          Smith--;
-          Promos--;
-        }
-        if (Promos >= 1 && Samba >= 1) {
-          descuento -= 10;
-          Samba--;
-          Promos--;
-        }
-        if (Promos >= 1 && Smith500 >= 1) {
-          descuento -= 10;
-          Smith500--;
-          Promos--;
-        }
-        if (Zapi >= 1 && Bebidas600 >= 1) {
-          descuento -= 15;
-          Bebidas600--;
-          Zapi--;
-        }
-      }
-    }
-    if(pedidoYa){
-      if (cantidadEmp === 3 && Bebidas600 === 1) {
+    console.log("console.log(Suavizante)",Suavizante)
+      while (cantidadLavarropa >= 4) {
         descuento -= 24;
-        Promos++;
-        cantidadEmp -= 2;
+        cantidadLavarropa -= 4;
       }
-      if (cantidadEmp === 6 && Bebidas15 === 1) {
-        descuento -= 48;
-        Promos++;
-        cantidadEmp -= 2;
+      while (AguaSanitaria1 >= 12) {
+        descuento -= 0;
+        AguaSanitaria1 -= 12;
       }
-    }
-    if(Rappi){
-      while(cantidadEmp>0){
-        descuento+=16;
-        cantidadEmp--;
+      while (AguaSanitaria2 >= 12) {
+        descuento -= 24;
+        AguaSanitaria2 -= 12;
       }
-    }
+      while (AguaSanitaria5 >= 12) {
+        descuento -= 0;
+        AguaSanitaria5 -= 12;
+      }
+      while (Suavizante >= 4) {
+        descuento -= 28;
+        Suavizante -= 4;
+      }
 
     return descuento;
   };
 
   useEffect(() => {
     getDescuento();
-  }, [carrito.Carrito.prods, pedidoYa]);
+  }, [carrito.Carrito.prods]);
 
   const addEmpanada = (empanada) => {
     updateCarrito(empanada, 1);
@@ -331,123 +271,65 @@ export const Carrito = () => {
 
   return (
     <div style={{ marginTop: "70px" }} className="carrito-container">
-      <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between", // Para distribuir los elementos
-    gap: "20px",
-  }}
->
-  {/* Contenedor Pedidos Ya */}
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "10px", // Espacio entre el texto y el botón
-    }}
-  >
-    <h4 style={{ margin: 0 }}>Pedidos Ya</h4>
-    <div
-      onClick={()=>handleToggle("Pedidos")}
-      style={{
-        width: "60px",
-        height: "30px",
-        backgroundColor: pedidoYa ? "#ff0000" : "#ccc",
-        borderRadius: "30px",
-        display: "flex",
-        alignItems: "center",
-        padding: "5px",
-        cursor: "pointer",
-        transition: "background-color 0.3s",
-      }}
-    >
-      <div
-        style={{
-          width: "20px",
-          height: "20px",
-          backgroundColor: "#fff",
-          borderRadius: "50%",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          transform: pedidoYa ? "translateX(30px)" : "translateX(0)",
-          transition: "transform 0.3s",
-        }}
-      ></div>
-    </div>
-  </div>
-
-  {/* Línea divisoria */}
-  <div
-    style={{
-      height: "40px", // Altura de la línea
-      width: "2px",
-      backgroundColor: "#ccc",
-    }}
-  ></div>
-
-  {/* Contenedor Rappi */}
-  <div
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: "10px", // Espacio entre el texto y el botón
-    }}
-  >
-    <h4 style={{ margin: 0 }}>Rappi</h4>
-    <div
-      onClick={()=>handleToggle("Rappi")}
-      style={{
-        width: "60px",
-        height: "30px",
-        backgroundColor: Rappi ? "#ff0000" : "#ccc",
-        borderRadius: "30px",
-        display: "flex",
-        alignItems: "center",
-        padding: "5px",
-        cursor: "pointer",
-        transition: "background-color 0.3s",
-      }}
-    >
-      <div
-        style={{
-          width: "20px",
-          height: "20px",
-          backgroundColor: "#fff",
-          borderRadius: "50%",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          transform: Rappi ? "translateX(30px)" : "translateX(0)",
-          transition: "transform 0.3s",
-        }}
-      ></div>
-    </div>
-  </div>
-</div>
-
+   <h4>Productos</h4>
       {carrito.Carrito.prods.length === 0 ? (
         <p className="carrito-empty">No hay productos</p>
       ) : (
         carrito.Carrito.prods.map((prod) => (
           <div key={prod._id} className="carrito-item">
-            <span className="carrito-producto">{prod.Nombre}</span>
-            <div className="carrito-controles">
-              <button
-                className="carrito-boton-menos"
-                onClick={() => removeEmpanada(prod)}
-              >
-                -
-              </button>
-              <span className="carrito-cantidad">{prod.cantidad}</span>
-              <button
-                className="carrito-boton"
-                onClick={() => addEmpanada(prod)}
-              >
-                +
-              </button>
-            </div>
-            <p className="precio">$ {prod.cantidad * prod.Precio}</p>
+            <span className="carrito-producto" style={{width:"100px"}}>{prod.Nombre}</span>
+            {prod.UnidadPeso==="Peso" ?
+            <>
+             <Form.Control
+              type="number"
+              value={prod.Peso}
+              style={{width:"100px", alignItems:"start",height:"30px"}}
+              onChange={(e) => setPeso(e.target.value,prod)}
+              placeholder="Peso"
+              required
+            />Kg
+                     <img
+                      className="remove"
+                      src="./borrar-removebg.png"
+                      alt="Eliminar"
+                      style={{
+                        userSelect: "none",
+                        height: "20px",
+                        marginLeft:"10px",
+                        transition: "opacity 0.3s ease-in-out",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => removeEmpanada(prod)}
+                    />
+            <p className="precio">
+              $ {(prod.Precio * prod.Peso || 0).toFixed(1)}
+            </p>
+            </>
+            :
+            <>
+              <div className="carrito-controles" style={{width:"130px"}}>
+                <button
+                  className="carrito-boton-menos"
+                  onClick={() => removeEmpanada(prod)}
+                >
+                  -
+                </button>
+                <span className="carrito-cantidad">{prod.cantidad}</span>
+                <button
+                  className="carrito-boton"
+                  onClick={() => addEmpanada(prod)}
+                >
+                  +
+                </button>
+              </div>
+              <p className="precio" >$ {prod.cantidad * prod.Precio}</p> 
+            </>
+          }
           </div>
         ))
       )}
+      {
+        getDescuento()<0 &&
       <div
         style={{
           fontSize: "18px",
@@ -460,8 +342,9 @@ export const Carrito = () => {
           borderRadius: "5px",
         }}
       >
-        Subtotal: ${carrito.Carrito.total}
+        Descuento: ${getDescuento().toFixed(1)}
       </div>
+      }
       <div
         style={{
           fontSize: "18px",
@@ -474,21 +357,7 @@ export const Carrito = () => {
           borderRadius: "5px",
         }}
       >
-        Descuento: ${getDescuento()}
-      </div>
-      <div
-        style={{
-          fontSize: "18px",
-          fontWeight: "bold",
-          marginTop: "20px",
-          textAlign: "right",
-          color: "#333",
-          padding: "10px",
-          backgroundColor: "#f0f0f0",
-          borderRadius: "5px",
-        }}
-      >
-        Total: ${carrito.Carrito.total + getDescuento()}
+        Total: ${(carrito.Carrito.total+getDescuento()).toFixed(1)}
       </div>
       <div
         style={{

@@ -16,7 +16,7 @@ export const Ordenes = () => {
 
     const fetchOrdenes = async () => {
       try {
-        const response = await fetch(`/OrdenesLocal?local=${Local}`);
+        const response = await fetch(`/Ordenes`);
         const data = await response.json();
   
         // Agrupar órdenes por día
@@ -169,7 +169,7 @@ export const Ordenes = () => {
                           textAlign: "left",
                         }}
                       >
-                        Cantidad
+                        Cantidad/Peso
                       </th>
                     </tr>
                   </thead>
@@ -200,6 +200,17 @@ export const Ordenes = () => {
                         >
                           ${articulo.Precio}
                         </td>
+                        { 
+                        articulo.UnidadPeso==="Peso" ?
+                        <td
+                          style={{
+                            borderBottom: "1px solid #ddd",
+                            padding: "6px",
+                          }}
+                        >
+                          {articulo.Peso}Kg
+                        </td>
+                        :
                         <td
                           style={{
                             borderBottom: "1px solid #ddd",
@@ -208,6 +219,7 @@ export const Ordenes = () => {
                         >
                           {articulo.cantidad}
                         </td>
+                        }
                       </tr>
                     ))}
                   </tbody>

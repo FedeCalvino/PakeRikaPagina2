@@ -60,23 +60,27 @@ export const Catalogo = () => {
     setCarritoVisible((prev) => !prev);
   };
 
-  const updateCarrito = (empanada, quantityChange) => {
+  const updateCarrito = (Prod, quantityChange) => {
     console.log(
       "Actualizando carrito con empanada:",
-      empanada,
+      Prod,
       "Cantidad:",
       quantityChange
     );
     console.log("carrito", carrito);
-    dispatch(updateProducto({ empanada, quantityChange }));
-    dispatch(updateTotal({ empanada, quantityChange }));
+    dispatch(updateProducto({ Prod, quantityChange }));
+    if(Prod.UnidadPeso!=="Peso"){
+      dispatch(updateTotal({ Prod, quantityChange }));
+    }
     localStorage.setItem("carrito", JSON.stringify(carrito));
   };
 
-  const addArticulo = (empanada) => {
-    setHighlightedId(empanada._id);
-    updateCarrito(empanada, 1);
+  const addArticulo = (Articulo) => {
+    if(Articulo.UnidadPeso!=="Peso" || getCantidad(Articulo._id)<1){
+    setHighlightedId(Articulo._id);
+    updateCarrito(Articulo, 1);
     setTimeout(() => setHighlightedId(null), 300);
+    }
   };
 
   const removeEmpanada = (empanada) => {
@@ -85,11 +89,11 @@ export const Catalogo = () => {
     setTimeout(() => setHighlightedIdR(null), 300);
   };
 
-  const getCantidadEmpanada = (id) => {
-    const empanadaInCarrito = carrito.Carrito.prods
+  const getCantidad = (id) => {
+    const InCarrito = carrito.Carrito.prods
       ? carrito.Carrito.prods.find((item) => item._id === id)
       : null;
-    return empanadaInCarrito ? empanadaInCarrito.cantidad : 0;
+    return InCarrito ? InCarrito.cantidad : 0;
   };
 
   return (
@@ -111,16 +115,17 @@ export const Catalogo = () => {
               fontWeight: "bold",
               color: "#333",
               margin: "0 10px", // Espaciado entre imagen y texto
+              userSelect: "none"
             }}
           >
-            Empanadas
+            Frutas
           </p>
         </div>
 
         <div
           className={carritoVisible ? "grid-container" : "grid-containerFull"}
         >
-          {Artiuclos.filter((Artiuclo) => Artiuclo.Categoria === "Empanadas")
+          {Artiuclos.filter((Artiuclo) => Artiuclo.Categoria === "Fruta")
             .sort((a, b) => a.Numero - b.Numero)
             .map((Artiuclo) => (
               <div
@@ -129,7 +134,7 @@ export const Catalogo = () => {
                 } ${highlightedIdR === Artiuclo._id && "highlightR"}`}
                 key={Artiuclo._id}
               >
-                {getCantidadEmpanada(Artiuclo._id) > 0 && (
+                {getCantidad(Artiuclo._id) > 0 && (
                   <>
                     <img
                       className="remove-btn"
@@ -142,7 +147,7 @@ export const Catalogo = () => {
                       className="quantity-badge"
                       style={{ userSelect: "none" }}
                     >
-                      {getCantidadEmpanada(Artiuclo._id)}
+                      {getCantidad(Artiuclo._id)}
                     </div>
                   </>
                 )}
@@ -152,7 +157,6 @@ export const Catalogo = () => {
                   onClick={() => addArticulo(Artiuclo)}
                 >
                   <h2>{Artiuclo.Nombre}</h2>
-                  <h2>{Artiuclo.Numero}</h2>
                 </div>
               </div>
             ))}
@@ -174,22 +178,23 @@ export const Catalogo = () => {
             fontWeight: "bold",
             color: "#333",
             margin: "0 10px", // Espaciado entre imagen y texto
+            userSelect: "none"
           }}
         >
-          Promos
+          Verduras
         </p>
       </div>
       <div className={carritoVisible ? "grid-container" : "grid-containerFull"}>
         {Artiuclos.map(
           (Artiuclo) =>
-            Artiuclo.Categoria === "Promo" && (
+            Artiuclo.Categoria === "Verdura" && (
               <div
                 className={`card ${
                   highlightedId === Artiuclo._id && "highlight"
                 } ${highlightedIdR === Artiuclo._id && "highlightR"}`}
                 key={Artiuclo._id}
               >
-                {getCantidadEmpanada(Artiuclo._id) > 0 && (
+                {getCantidad(Artiuclo._id) > 0 && (
                   <>
                     <img
                       className="remove-btn"
@@ -202,7 +207,7 @@ export const Catalogo = () => {
                       className="quantity-badge"
                       style={{ userSelect: "none" }}
                     >
-                      {getCantidadEmpanada(Artiuclo._id)}
+                      {getCantidad(Artiuclo._id)}
                     </div>
                   </>
                 )}
@@ -229,22 +234,23 @@ export const Catalogo = () => {
             fontWeight: "bold",
             color: "#333",
             margin: "0 10px", // Espaciado entre imagen y texto
+            userSelect: "none"
           }}
         >
-          La Zapi
+         Limpieza
         </p>
       </div>
       <div className={carritoVisible ? "grid-container" : "grid-containerFull"}>
         {Artiuclos.map(
           (Artiuclo) =>
-            (Artiuclo.Categoria === "Zapi") && (
+            (Artiuclo.Categoria === "Limpieza") && (
               <div
                 className={`card ${
                   highlightedId === Artiuclo._id && "highlight"
                 } ${highlightedIdR === Artiuclo._id && "highlightR"}`}
                 key={Artiuclo._id}
               >
-                {getCantidadEmpanada(Artiuclo._id) > 0 && (
+                {getCantidad(Artiuclo._id) > 0 && (
                   <>
                     <img
                       className="remove-btn"
@@ -257,7 +263,7 @@ export const Catalogo = () => {
                       className="quantity-badge"
                       style={{ userSelect: "none" }}
                     >
-                      {getCantidadEmpanada(Artiuclo._id)}
+                      {getCantidad(Artiuclo._id)}
                     </div>
                   </>
                 )}
@@ -283,6 +289,7 @@ export const Catalogo = () => {
             marginLeft: "150px",
             fontWeight: "bold",
             color: "#333",
+            userSelect: "none",
             margin: "0 10px", // Espaciado entre imagen y texto
           }}
         >
@@ -292,7 +299,7 @@ export const Catalogo = () => {
       <div className={carritoVisible ? "grid-container" : "grid-containerFull"}>
         {Artiuclos.map(
           (Artiuclo) =>
-            (Artiuclo.Categoria === "Bebida" || Artiuclo.Categoria === "BebidaNPromo" ||
+            (Artiuclo.Categoria === "Bebidas" || Artiuclo.Categoria === "BebidaNPromo" ||
               Artiuclo.Categoria === "Agua") && (
               <div
                 className={`card ${
@@ -300,7 +307,7 @@ export const Catalogo = () => {
                 } ${highlightedIdR === Artiuclo._id && "highlightR"}`}
                 key={Artiuclo._id}
               >
-                {getCantidadEmpanada(Artiuclo._id) > 0 && (
+                {getCantidad(Artiuclo._id) > 0 && (
                   <>
                     <img
                       className="remove-btn"
@@ -313,7 +320,7 @@ export const Catalogo = () => {
                       className="quantity-badge"
                       style={{ userSelect: "none" }}
                     >
-                      {getCantidadEmpanada(Artiuclo._id)}
+                      {getCantidad(Artiuclo._id)}
                     </div>
                   </>
                 )}

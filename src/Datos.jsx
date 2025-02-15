@@ -32,7 +32,7 @@ export const Datos = () => {
 
   const fetchOrdenes = async () => {
     try {
-      const response = await fetch(`/OrdenesLocal?local=${Local}`);
+      const response = await fetch(`/Ordenes`);
       const data = await response.json();
       setOrdenes(data);
     } catch (error) {
@@ -102,8 +102,30 @@ export const Datos = () => {
     }, 0);
   };
 
+  const calcularTotalesEfectivoPorRango = (inicio, fin) => {
+    return ordenes.reduce((total, orden) => {
+      const fechaOrden = new Date(orden.Dia);
+      const fechaSeleccionada = new Date(fechaFiltro);
+      fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+
+      if (
+        fechaOrden.getFullYear() === fechaSeleccionada.getFullYear() &&
+        fechaOrden.getMonth() === fechaSeleccionada.getMonth() &&
+        fechaOrden.getDate() === fechaSeleccionada.getDate()
+      ) {
+        const hora = fechaOrden.getHours();
+        if (hora >= inicio && hora <= fin && orden.Pago==="Efectivo") {
+          return total + orden.Total;
+        }
+      }
+      return total;
+    }, 0);
+  };
+
   const total11a16 = calcularTotalesPorRango(11, 16);
+  const totalEfectivo11a16 = calcularTotalesEfectivoPorRango(11, 16);
   const total20a24 = calcularTotalesPorRango(20, 23);
+  const totalEfectivo20a24 = calcularTotalesEfectivoPorRango(20, 23);
 
   return (
     <>
@@ -178,6 +200,16 @@ export const Datos = () => {
           >
             Total : <span style={{ fontSize: "2.5rem" }}>{total11a16}</span>
           </p>
+          <p
+            style={{
+              fontSize: "2rem",
+              color: "#2e7d32",
+              fontWeight: "bold",
+              margin: "0",
+            }}
+          >
+            Efectivo : <span style={{ fontSize: "2.5rem" }}>{totalEfectivo11a16}</span>
+          </p>
         </div>
           </div>
           <div style={{ flex: "1", padding: "10px", border: "1px solid #ddd" }}>
@@ -214,6 +246,16 @@ export const Datos = () => {
             }}
           >
             Total : <span style={{ fontSize: "2.5rem" }}>{total20a24}</span>
+          </p>
+          <p
+            style={{
+              fontSize: "2rem",
+              color: "#2e7d32",
+              fontWeight: "bold",
+              margin: "0",
+            }}
+          >
+            Efectivo : <span style={{ fontSize: "2.5rem" }}>{totalEfectivo20a24}</span>
           </p>
         </div>
           </div>

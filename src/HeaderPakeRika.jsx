@@ -78,12 +78,7 @@ export const HeaderPakeRika = ({ setcarrito }) => {
   <nav className="navbar navbar-light bg-light">
     <div className="container d-flex align-items-center justify-content-between">
       {/* Botón Salir */}
-      <button
-        className="btn btn-danger btn-sm"
-        onClick={changeLocal}
-      >
-        Salir
-      </button>
+      <h3>Verduleria</h3>
 
       {/* Navegación */}
       <ul className="navbar-nav d-flex flex-row mx-3">
@@ -97,9 +92,6 @@ export const HeaderPakeRika = ({ setcarrito }) => {
           <Link className="nav-link large-link" to="/Cierre">Resumen</Link>
         </li>
         <li className="nav-item mx-2">
-          <Link className="nav-link large-link" to="/StockP">Stock</Link>
-        </li>
-        <li className="nav-item mx-2">
           <Link className="nav-link large-link" to="/Extra">Extras</Link>
         </li>
       </ul>
@@ -107,7 +99,7 @@ export const HeaderPakeRika = ({ setcarrito }) => {
       {/* Local */}
       {Local && (
         <div className="user-info text-nowrap">
-          <span>{Local}</span>
+
         </div>
       )}
     </div>
