@@ -2,7 +2,7 @@
     "rewrites": [
       {
         "source": "/articulos",
-        "destination": "http://200.40.89.254:3034/Ordenesverduleria"
+        "destination": "http://200.40.89.254:3034/articulosVerduleria"
       },
       {
         "source": "/Ordenes",
